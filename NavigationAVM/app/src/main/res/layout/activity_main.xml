@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.omur.slidingmenu.MainActivity"
+    android:id="@+id/drawer_Layout"
+    >
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:id="@+id/main_content">
+
+   </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:id="@+id/drawer_pane"
+        android:background="#8b8989">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/profile_box"
+        android:gravity="center_vertical"
+        android:background="#8b8989" >
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/profile_icon"
+            android:layout_marginLeft="10dp"
+            android:background="@mipmap/ic_launcher"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@+id/profile_icon"
+            android:layout_marginLeft="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Omur"
+                android:textSize="15dp"
+                android:background="#8b8989"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BAYAV"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:background="#8b8989"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/nav_list"
+        android:layout_below="@+id/profile_box"
+        android:choiceMode="singleChoice"
+        android:background="#ffffff">
+
+    </ListView>
+
+    </RelativeLayout>
+</android.support.v4.widget.DrawerLayout>

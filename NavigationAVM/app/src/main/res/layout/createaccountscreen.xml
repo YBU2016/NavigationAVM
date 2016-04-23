@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1c1c1c">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Katıl"
+            android:id="@+id/CreateAccount"
+            android:background="#1c1c1c"
+            android:textColor="#eead0e"
+            android:textSize="17dp"
+            android:layout_gravity="right"  />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#808080"
+        android:hint="Ad"
+        android:ems="10"
+        android:background="@drawable/edittexttheme_textfield_activated_holo_light"
+        android:id="@+id/ad" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:inputType="textPersonName"
+        android:hint="Soyad"
+        android:ems="10"
+        android:textColorHint="#808080"
+        android:background="@drawable/edittexttheme_textfield_activated_holo_light"
+        android:id="@+id/soyad" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:inputType="textPersonName"
+        android:hint="Kullanıcı Adı"
+        android:ems="10"
+        android:textColorHint="#808080"
+        android:background="@drawable/edittexttheme_textfield_activated_holo_light"
+        android:id="@+id/kullanıcıadı" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:textColor="#FFFFFF"
+        android:ems="10"
+        android:hint="E-mail"
+        android:textColorHint="#808080"
+        android:background="@drawable/edittexttheme_textfield_activated_holo_light"
+        android:id="@+id/email" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:textColor="#FFFFFF"
+        android:ems="10"
+        android:hint="Şifre"
+        android:textColorHint="#808080"
+        android:background="@drawable/edittexttheme_textfield_activated_holo_light"
+        android:id="@+id/password1" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:hint="Şifre(Tekrar)"
+        android:textColorHint="#808080"
+        android:background="@drawable/edittexttheme_textfield_activated_holo_light"
+        android:id="@+id/password2"
+        />
+
+</LinearLayout>

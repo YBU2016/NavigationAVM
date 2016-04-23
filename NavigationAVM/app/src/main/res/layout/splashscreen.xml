@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="#1c1c1c" >
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/splashlogo"
+        android:layout_weight="0.33">
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="InnApp"
+        android:textSize="40dp"
+        android:textColor="#eead0e"
+        android:textStyle="italic"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/textView4"
+        android:layout_weight="0.20" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Rahat ve keyifli alışverişler için... "
+        android:textStyle="italic"
+        android:textColor="#FFFFFF"
+        android:id="@+id/textView5"
+        android:gravity="center_horizontal"
+        android:layout_weight="0.20" />
+
+
+</LinearLayout>
