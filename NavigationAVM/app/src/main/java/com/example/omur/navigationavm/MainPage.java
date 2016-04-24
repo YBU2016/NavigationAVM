@@ -1,5 +1,13 @@
 package com.example.omur.navigationavm;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.support.v4.app.FragmentManager;
+import android.widget.TextView;
 
 
 import com.example.Adapters.NavListAdapter;
@@ -20,10 +29,19 @@ import com.example.DrawerFragments.fragment_settings;
 import com.example.models.NavItem;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class MainPage extends AppCompatActivity {
+public class MainPage extends AppCompatActivity
+{
+    public static TreeMap<Double, String> FiveOfResultMap = new TreeMap<Double, String>();
+    public static WifiManager wifi;
+    public static List<ScanResult> results;
+    Context context = this;
 
+    TextView textView;
     DrawerLayout drawerLayout ;
     RelativeLayout drawerPane ;
     ListView lstNav ;
@@ -32,6 +50,11 @@ public class MainPage extends AppCompatActivity {
     List<Fragment> listfragment ;
 
     ActionBarDrawerToggle actionBarDrawerToggle ;
+
+    public double calculateDistance(double levelInDb, double freqInMHz){
+        double exp = (27.55 - (20 * Math.log10(freqInMHz)) + Math.abs(levelInDb)) / 20.0;
+        return Math.pow(10.0, exp);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +88,7 @@ public class MainPage extends AppCompatActivity {
         listfragment.add(new fragment_about()) ;
 
         // ilk fragmentı default olarak ayarlıyoruz
-       FragmentManager fragmentManager = getSupportFragmentManager() ;
+       final FragmentManager fragmentManager = getSupportFragmentManager() ;
         fragmentManager.beginTransaction().replace(R.id.main_content,listfragment.get(0)).commit() ;
 
         setTitle(listnavitem.get(0).getTitle());
@@ -111,6 +134,68 @@ public class MainPage extends AppCompatActivity {
         };
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
+
+
+        /**
+         * Scanning Wifi code, Starting here.
+         */
+        wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        registerReceiver(new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context c, Intent intent) {
+                results = wifi.getScanResults();
+                TreeMap resultMap = new TreeMap<>();
+
+                /**
+                 * This loop is the most important part of the project.
+                 * We send Signal Level and Signal Frequency to calculateDistance method.
+                 * The calculated distance and MAC adress of modem will be recorded to (TreeMap)resultMap.
+                 */
+                for (ScanResult s : results) {
+                    resultMap.put(calculateDistance(s.level, s.frequency), s.BSSID);
+                }
+
+                /**
+                 * Here we got the 5 nearest modems from resultMap. FiveOfResultMap is also a TreeMap
+                 */
+                int count = 0;
+                Iterator<Map.Entry<Double, String>> entries = resultMap.entrySet().iterator();
+                while(entries.hasNext())
+                {
+                    Map.Entry<Double, String> entry = entries.next();
+                    if(count > 4) break;
+                    FiveOfResultMap.put(entry.getKey(), entry.getValue());
+                    count++;
+                }
+
+
+
+                if(FiveOfResultMap.size() > 0)
+                {
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = preferences.edit();
+
+                    for (Map.Entry entryMap : FiveOfResultMap.entrySet())
+                        editor.putString(entryMap.getKey().toString(), entryMap.getValue().toString());
+                        editor.commit();
+
+                    /**
+                     * This part is finding zone. We sent nearest 5 modems to Area Class.
+                     * In this class, we have several operations.
+                     */
+                    Area areaClass = new Area(context);
+                    areaClass.findZone(FiveOfResultMap);
+                }
+
+            }
+        }, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+        wifi.startScan();
+        /**
+         * Wifi scan code finishes Here
+         */
 
     }
 

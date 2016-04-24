@@ -2,5 +2,6 @@
     <string name="app_name">NavigationAVM</string>
     <string name="drawer_opened">Drawer Opened</string>
     <string name="drawer_closed">Drawer Closed</string>
+    <string name="mytextview">myTextView</string>
 
 </resources>
