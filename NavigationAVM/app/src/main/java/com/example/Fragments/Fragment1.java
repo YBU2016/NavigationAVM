@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.omur.navigationavm.DatabaseScreen;
-import com.example.omur.navigationavm.LoginScreen;
+import com.example.omur.navigationavm.LocationScreen;
 import com.example.omur.navigationavm.R;
 
 
 public class Fragment1 extends Fragment
 {
-    Button goDatabaseButton;
+    Button goDatabaseButton, goLocationScreenButton;
 
 
     @Override
@@ -31,6 +31,16 @@ public class Fragment1 extends Fragment
                 startActivity(intent);
             }
         });
+
+        goLocationScreenButton = (Button) v.findViewById(R.id.LocationScreen);
+        goLocationScreenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LocationScreen.class);
+                startActivity(intent);
+            }
+        });
+
 
         return v;
     }

@@ -104,17 +104,8 @@ public class DatabaseScreen extends Activity
                         editor.putString(entryMap.getKey().toString(), entryMap.getValue().toString());
                         editor.commit(); */
 
-                    /**
-                     * This part is finding zone. We sent nearest 5 modems to Area Class.
-                     * In this class, we have several operations.
-                     */
-
                     textView = (TextView) findViewById(R.id.myTextView);
                     textView.setText(FiveOfResultMap.toString());
-
-
-                    Area areaClass = new Area(c);
-                    //areaClass.findZone(FiveOfResultMap);
                 }else{
                     Toast.makeText(DatabaseScreen.this, "Please open Wi-Fi", Toast.LENGTH_SHORT).show();
                 }

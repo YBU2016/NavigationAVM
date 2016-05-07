@@ -16,7 +16,11 @@ import java.util.Vector;
 
 /**
  * Created by Alparslan on 24.4.2016.
+ *
+ * This Class finds zone. We sent nearest 5 modems to this Area Class.
+ * In this class, we have several important operations.
  */
+
 public class Area
 {
     private RepositoryContainer rc;
@@ -28,7 +32,7 @@ public class Area
     public Area(Context context) {
         this.context = context;
     }
-    public String findZone(TreeMap<Double, String> scanResultsMap) {
+    public String findZone(HashMap<Double, String> scanResultsMap) {
         String area = "";
         rc = RepositoryContainer.create(context);
         repository = rc.getRepository(RepositoryNames.DISTANCES);
@@ -69,17 +73,10 @@ public class Area
             if(areaList.get(mostFrequentlyArea) > maxFrequently)
             {
                 maxFrequently = areaList.get(mostFrequentlyArea);
+                area = mostFrequentlyArea;
             }
         }
-        int number;
-        for(String findedArea : areaList.keySet())
-        {
-            number = areaList.get(findedArea);
-            if(number >= maxFrequently)
-            {
-                area = findedArea;
-            }
-        }
+
         return area;
     }
 }
