@@ -15,7 +15,7 @@ import java.util.TreeMap;
 import java.util.Vector;
 
 /**
- * Created by Toshıba on 24.4.2016.
+ * Created by Alparslan on 24.4.2016.
  */
 public class Area
 {
@@ -35,30 +35,29 @@ public class Area
 
 
         Iterator<Map.Entry<Double, String>> scanEntries = scanResultsMap.entrySet().iterator();
-        /**
-         *
+        while (scanEntries.hasNext()) {   /**Here MAC adresses which is coming from scan of WiFi is iterated.*/
+            Map.Entry<Double, String> entry = scanEntries.next();  /**Here, we got MAC Adresses one by one in entry variable */
 
-        while (scanEntries.hasNext()) {   Here MAC adresses which is coming from scan of WiFi is iterated.
-            Map.Entry<Double, String> entry = scanEntries.next();  Here, I got MAC Adresses one by one in entry variable
-            model = repository.getDistanceFromBSSID(entry.getValue());
-            String modelString;
-            for (int counter = 0; counter < model.size(); counter++) {
-                modelString = model.get(counter).zone;
-                /** Below if controls the distance.
-                if (entry.getKey() <= model.get(counter).farthest && entry.getKey() >= model.get(counter).shortest) {
-                    if(areaList.isEmpty() || !areaList.containsKey(model.get(counter).zone)) {
-                        areaList.put(modelString, 1);
-                    } else if(areaList.containsKey(model.get(counter).zone)) {
-                        areaList.put(modelString, areaList.get(modelString) + 1);
+            if((model = repository.getDistanceFromBSSID(entry.getValue())) != null) {
+                String modelString;
+                for (int counter = 0; counter < model.size(); counter++) {
+                    modelString = model.get(counter).zone;
+                    /** Below if controls the distance. */
+                    if (entry.getKey() <= model.get(counter).farthest && entry.getKey() >= model.get(counter).shortest) {
+                        if (areaList.isEmpty() || !areaList.containsKey(model.get(counter).zone)) {
+                            areaList.put(modelString, 1);
+                        } else if (areaList.containsKey(model.get(counter).zone)) {
+                            areaList.put(modelString, areaList.get(modelString) + 1);
+                        }
+
                     }
-
                 }
             }
 
         }//End of While
 
-
-         * This part looks the areaList HashMap and finds most frequently one.
+        /**
+         * This part looks the areaList HashMap and finds most frequently Zone in it.
          * All of the zones in the distance are recorded to a HashMap and
          * its value icreased by 1 when the same zone is in distance.
          * So, only the actual distance will have the 3 as value.

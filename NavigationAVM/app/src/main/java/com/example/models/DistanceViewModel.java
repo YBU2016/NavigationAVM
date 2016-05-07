@@ -3,7 +3,7 @@ package com.example.models;
 import com.example.Database.Entities.EntityBase;
 
 /**
- * Created by Toshıba on 24.4.2016.
+ * Created by Alparslan on 24.4.2016.
  */
 public class DistanceViewModel extends EntityBase
 {

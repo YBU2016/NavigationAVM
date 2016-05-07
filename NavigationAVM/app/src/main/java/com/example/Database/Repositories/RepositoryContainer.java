@@ -5,7 +5,7 @@ import android.content.Context;
 import java.util.ArrayList;
 
 /**
- * Created by Toshıba on 24.4.2016.
+ * Created by Alparslan on 24.4.2016.
  */
 public class RepositoryContainer
 {

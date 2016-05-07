@@ -14,7 +14,7 @@ import org.w3c.dom.Text;
 import java.util.Vector;
 
 /**
- * Created by Toshıba on 24.4.2016.
+ * Created by Alparslan on 24.4.2016.
  */
 public class DistancesAdapter extends BaseAdapter
 {

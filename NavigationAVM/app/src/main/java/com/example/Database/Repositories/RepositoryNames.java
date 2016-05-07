@@ -1,7 +1,7 @@
 package com.example.Database.Repositories;
 
 /**
- * Created by Toshıba on 24.4.2016.
+ * Created by Alparslan on 24.4.2016.
  */
 public class RepositoryNames
 {

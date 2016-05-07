@@ -13,14 +13,14 @@ import com.example.models.DistanceViewModel;
 import java.util.Vector;
 
 /**
- * Created by Toshıba on 24.4.2016.
+ * Created by Alparslan on 24.4.2016.
  */
 public class StoresRepository extends IRepository
 {
     public static final String TABLE_NAME = "Stores";
     public static final String ID = "ID";
     public static final String STORENAMES = "StoreNames";
-    public static final String STOREID = "Store_ID";
+    public static final String ZONE = "Zone";
 
     public StoresRepository(Context context)
     {
@@ -44,7 +44,7 @@ public class StoresRepository extends IRepository
         ContentValues cv = new ContentValues();
 
         cv.put(STORENAMES, se.getStoreNames());
-        cv.put(STOREID, se.getStore_ID());
+        cv.put(ZONE, se.getStore_ID());
         long r = db.insert(TABLE_NAME, null, cv);
         db.close();
 
@@ -62,7 +62,7 @@ public class StoresRepository extends IRepository
         ContentValues cv = new ContentValues();
 
         cv.put(STORENAMES, se.getStoreNames());
-        cv.put(STOREID, se.getStore_ID());
+        cv.put(ZONE, se.getStore_ID());
 
         long r = db.update(TABLE_NAME, cv, ID + " = ?",
                 new String[]{ String.valueOf(se.getID())});
@@ -98,7 +98,7 @@ public class StoresRepository extends IRepository
         if (cur.moveToNext())
         {
             entity = new StoresEntity(id, cur.getString(cur.getColumnIndex(STORENAMES)),
-                    cur.getString(cur.getColumnIndex(STOREID)));
+                    cur.getString(cur.getColumnIndex(ZONE)));
         }
         else
         {
@@ -114,12 +114,12 @@ public class StoresRepository extends IRepository
         EntityBase entity = null;
         SQLiteDatabase db = dbg.getReadableDatabase();
 
-        Cursor cur = db.query(TABLE_NAME, new String[] {ID, STORENAMES, STOREID}, "", null,"", "", "");
+        Cursor cur = db.query(TABLE_NAME, new String[] {ID, STORENAMES, ZONE}, "", null,"", "", "");
         Vector<EntityBase> records = new Vector<EntityBase>(cur.getCount());
         while (cur.moveToFirst())
         {
             entity = new StoresEntity(cur.getInt(0), cur.getString(cur.getColumnIndex(STORENAMES)),
-                    cur.getString(cur.getColumnIndex(STOREID)));
+                    cur.getString(cur.getColumnIndex(ZONE)));
             records.add(entity);
         }
         return records;
@@ -128,5 +128,10 @@ public class StoresRepository extends IRepository
     @Override
     public Vector<DistanceViewModel> getDistanceFromBSSID(String sendedBSSID) {
         return null;
+    }
+
+    @Override
+    public boolean isInDatabase(String zone, String bssid, String nearzone, int fathest, int shortest) {
+        return false;
     }
 }

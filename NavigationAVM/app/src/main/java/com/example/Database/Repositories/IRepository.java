@@ -9,7 +9,7 @@ import com.example.models.DistanceViewModel;
 import java.util.Vector;
 
 /**
- * Created by Toshıba on 24.4.2016.
+ * Created by Alparslan on 24.4.2016.
  */
 public abstract class IRepository
 {
@@ -31,6 +31,7 @@ public abstract class IRepository
     public abstract EntityBase GetRecord(int id);
     public abstract Vector<EntityBase> GetResult();
     public abstract Vector<DistanceViewModel> getDistanceFromBSSID(String sendedBSSID);
+    public abstract boolean isInDatabase(String zone, String bssid, String nearzone, int fathest, int shortest);
 
 
 }

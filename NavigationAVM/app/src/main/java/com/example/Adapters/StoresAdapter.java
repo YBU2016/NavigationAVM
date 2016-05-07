@@ -12,7 +12,7 @@ import com.example.Database.Entities.StoresEntity;
 import java.util.Vector;
 
 /**
- * Created by Toshıba on 24.4.2016.
+ * Created by Alparslan on 24.4.2016.
  */
 public class StoresAdapter extends BaseAdapter
 {

@@ -1,0 +1,69 @@
+Main Entrance+1.1.0
+Real+1.1.2
+Media Markt+1.1.4
+Fırıncı Orhan+1.1.1
+Direm Eczanesi+1.1.3
+Ali Gür+1.1.5
+My House+1.1.7
+Mado+1.1.9
+Erciyes Börek+1.1.11
+Ünal Kuruyemiş+1.1.13
+Turkcell+1.1.15
+HDŞ Lokman+1.1.17
+Samsung+1.1.19
+DRY Center+1.1.21
+Türk Telekom Avea+1.1.23
+Gemlik Zeytin Evleri+1.1.25
+Vodafone+1.1.27
+Tobacco+1.1.29
+Kuz Optik Saat+1.1.31
+Hisar+1.2.0
+Bambi+1.2.2
+Journey+1.2.4
+Parantez+1.2.6
+Beymen+1.2.8
+Pierre Cardin+1.2.10
+Batik+1.2.12
+Bisse+1.2.14
+Aker+1.2.16
+Kemal Tanca+1.2.18
+Seçil Store+1.2.20
+Tüzün+1.2.22
+Saat & Saat+1.2.24
+C&A+1.2.1
+Teknosa+1.2.3
+ESSE+1.2.5
+Karaca Züccaciye+1.2.7
+Bernardo+1.2.9
+Ramsey+1.2.11
+Sarar+1.2.13
+D'S Damat+1.2.15
+Watsons+1.2.17
+Süvari+1.2.19
+Ghisa+1.2.21
+SETRMS+1.2.23
+Moda İlgi+1.2.25
+Karaca Giyim+1.2.27
+Fabrika+1.2.29
+Atasay+1.2.31
+Chima+1.2.33
+Kıvanç KVC+1.2.35
+Ekol+1.2.37
+Kiğılı+1.2.39
+Sabri Özel+1.2.41
+Assos+1.2.43
+Altınyıldız+1.2.45
+Jack & Jones+1.2.47
+Hatemoğlu+1.2.49
+Aris+1.2.26
+Ravelli+1.2.28
+Love My Body+1.2.30
+Tergan+1.2.32
+Derimod+1.2.34
+ADL+1.2.36
+KOTON+1.2.38
+FLO+1.2.40
+LCW+1.2.42
+Casio+1.3.0
+Elif Optik+1.3.2
+Hatır Kahvesi+1.3.4

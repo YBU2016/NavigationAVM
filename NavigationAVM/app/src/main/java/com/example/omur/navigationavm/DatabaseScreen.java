@@ -1,8 +1,13 @@
 package com.example.omur.navigationavm;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -16,45 +21,125 @@ import com.example.Database.Entities.DistancesEntity;
 import com.example.Database.Repositories.IRepository;
 import com.example.Database.Repositories.RepositoryContainer;
 import com.example.Database.Repositories.RepositoryNames;
+import com.example.Database.Repositories.StaticData;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created by Toshıba on 24.4.2016.
+ * Created by Alparslan on 24.4.2016.
  */
 public class DatabaseScreen extends Activity
 {
-    private RepositoryContainer repositoryContainer;
     private IRepository repository;
+    public static HashMap<Double, String> FiveOfResultMap = new HashMap<>();
+    public static WifiManager wifi;
+    public static List<ScanResult> results;
 
-    private TreeMap<String, String> fiveOfResultMap = new TreeMap<String, String>();
     EditText editZone, editBSSID, editFarthest, editShortest, editNearzone, editStoreName;
     Button btnAddData, Dbms;
-    ImageButton btnDatabase;
     TextView textView;
+
+    public double calculateDistance(double levelInDb, double freqInMHz){
+        double exp = (27.55 - (20 * Math.log10(freqInMHz)) + Math.abs(levelInDb)) / 20.0;
+        return Math.pow(10.0, exp);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.database_screen);
 
-        repositoryContainer = RepositoryContainer.create(this);
+        RepositoryContainer repositoryContainer = RepositoryContainer.create(this);
         repository = repositoryContainer.getRepository(RepositoryNames.DISTANCES);
 
+        StaticData st = new StaticData();
+        st.insertStoreTableData("StoreNamesText.txt", this);
+        st.insertStoreTableData("DistancesText.txt", this);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        /**
+         * Scanning Wifi code, Starting here.
+         */
+        wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        registerReceiver(new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context c, Intent intent) {
+                results = wifi.getScanResults();
+                TreeMap resultMap = new TreeMap<>();
+
+                /**
+                 * This loop is the most important part of the project.
+                 * We send Signal Level and Signal Frequency to calculateDistance method.
+                 * The calculated distance and MAC adress of modem will be recorded to (TreeMap)resultMap.
+                 */
+                for (ScanResult s : results) {
+                    resultMap.put(calculateDistance(s.level, s.frequency), s.BSSID);
+                }
+
+                /**
+                 * Here we got the 5 nearest modems from resultMap. FiveOfResultMap is also a TreeMap
+                 */
+                int count = 0;
+                Iterator<Map.Entry<Double, String>> entries = resultMap.entrySet().iterator();
+                while(entries.hasNext())
+                {
+                    Map.Entry<Double, String> entry = entries.next();
+                    if(count > 4) break;
+                    FiveOfResultMap.put(entry.getKey(), entry.getValue());
+                    count++;
+                }
+
+
+
+                if(FiveOfResultMap.size() > 0)
+                {
+                  /*  SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = preferences.edit();
+
+                    for (Map.Entry entryMap : FiveOfResultMap.entrySet())
+                        editor.putString(entryMap.getKey().toString(), entryMap.getValue().toString());
+                        editor.commit(); */
+
+                    /**
+                     * This part is finding zone. We sent nearest 5 modems to Area Class.
+                     * In this class, we have several operations.
+                     */
+
+                    textView = (TextView) findViewById(R.id.myTextView);
+                    textView.setText(FiveOfResultMap.toString());
+
+
+                    Area areaClass = new Area(c);
+                    //areaClass.findZone(FiveOfResultMap);
+                }else{
+                    Toast.makeText(DatabaseScreen.this, "Please open Wi-Fi", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+        wifi.startScan();
+        /**
+         * Wifi scan code finishes Here
+         */
+
+        /*SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         for(Map.Entry entry : preferences.getAll().entrySet())
         {
             fiveOfResultMap.put(entry.getKey().toString(), entry.getValue().toString());
         }
 
-        textView = (TextView) findViewById(R.id.myTextView);
-        textView.setText(fiveOfResultMap.toString());
+
 
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.commit();
+        }*/
+
 
         editBSSID = (EditText) findViewById(R.id.BSSIDEditText);
         editFarthest = (EditText) findViewById(R.id.farthestEditText);

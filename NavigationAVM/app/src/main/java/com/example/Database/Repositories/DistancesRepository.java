@@ -13,7 +13,7 @@ import com.example.models.DistanceViewModel;
 import java.util.Vector;
 
 /**
- * Created by Toshıba on 24.4.2016.
+ * Created by Alparslan on 24.4.2016.
  */
 public class DistancesRepository extends IRepository
 {
@@ -152,5 +152,22 @@ public class DistancesRepository extends IRepository
         }
 
         return records;
+    }
+
+    @Override
+    public boolean isInDatabase(String zone, String bssid, String nearzone, int fathest, int shortest)
+    {
+        SQLiteDatabase dbReadable = dbg.getReadableDatabase();
+
+        Cursor cur = dbReadable.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE Zone = ? AND BSSID = ? " +
+                "AND NearZones = ? AND FarthestDistance = ? AND ShortestDistance = ?",new String[]
+                {zone, bssid, nearzone, String.valueOf(fathest), String.valueOf(shortest)});
+
+        if (cur.moveToFirst())
+        {
+            return true;
+        }else{
+            return false;
+        }
     }
 }
