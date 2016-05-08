@@ -3,5 +3,6 @@
     <string name="drawer_opened">Drawer Opened</string>
     <string name="drawer_closed">Drawer Closed</string>
     <string name="mytextview">myTextView</string>
+    <string name="facebook_app_id">1755175371379791</string>
 
 </resources>

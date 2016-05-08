@@ -1,94 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:weightSum="1"
-        android:background="#1c1c1c">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:weightSum="1"
+    android:background="#1c1c1c">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ATLA"
-            android:id="@+id/skipbutton"
-            android:layout_gravity="right"
-            android:background="#1c1c1c"
-            android:textSize="17dp"
-            android:textColor="#eead0e"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ATLA"
+        android:id="@+id/skipbutton"
+        android:layout_gravity="right"
+        android:background="#1c1c1c"
+        android:textSize="17dp"
+        android:textColor="#eead0e"/>
 
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="159dp"
-        android:background="@drawable/ankamall"
-        android:layout_weight="0.27">
+        android:background="@drawable/antares2"
+        android:layout_weight="0.45">
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="18dp"></LinearLayout>
-
-    <TextView
-            android:layout_width="219dp"
-            android:layout_height="0dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Giriş yap :"
-            android:id="@+id/textView2"
-            android:textSize="20dp"
-            android:textStyle="italic"
-            android:textColor="#FFFFFF"
-            android:layout_weight="0.23" />
-
-        <LinearLayout
-           android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.20">
-
-            <Button
-                android:layout_width="160dp"
-                android:layout_height="48dp"
-                android:id="@+id/ebutton"
-                android:background="@drawable/mailbutton"
-                android:layout_gravity="center_horizontal" />
-
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=""
-                android:id="@+id/textView8"
-                android:layout_gravity="center_horizontal"/>
-
-            <Button
-                android:layout_width="160dp"
-                android:layout_height="48dp"
-                android:id="@+id/facebutton"
-                android:background="@drawable/facebookbutton"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="center_horizontal" />
+        android:layout_height="48dp"></LinearLayout>
 
 
-        </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.20">
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/kaydol"
-                android:layout_gravity="center_horizontal"
-                android:textStyle="italic"
-                android:textColor="#eead0e"
-                android:text="Dilerseniz bir InnApp hesabı da oluşturabilirsiniz. "
-                android:background="#1c1c1c"/>
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:id="@+id/ebutton"
+            android:background="#0099FF"
+            android:layout_gravity="center_horizontal"
+            android:text="E-posta"
+            android:textColor="#ffffff"
+            android:layout_marginTop="10dp"/>
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/kaydol"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="italic"
+        android:textColor="#eead0e"
+        android:text="Dilerseniz bir InnApp hesabı da oluşturabilirsiniz. "
+        android:background="#1c1c1c"/>
 
 
 </LinearLayout>
+
+
 

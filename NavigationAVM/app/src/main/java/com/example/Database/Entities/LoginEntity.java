@@ -12,6 +12,8 @@ public class LoginEntity extends EntityBase {
     private String Password ;
 
     public LoginEntity(int id, String name, String surName, String userName, String email, String password) {
+
+        super(id);
         Email = email;
         Name = name;
         Password = password;
