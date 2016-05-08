@@ -46,6 +46,9 @@ public class RepositoryContainer
             case RepositoryNames.DISTANCES:
                 ir = new DistancesRepository(context);
                 break;
+            case RepositoryNames.LOGIN:
+                ir = new LoginRepository(context);
+                break;
         }
         return ir;
     }

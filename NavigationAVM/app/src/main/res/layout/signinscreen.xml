@@ -33,7 +33,7 @@
         android:textColor="#FFFFFF"
         android:background="@drawable/edittexttheme_textfield_activated_holo_light"
         android:ems="10"
-        android:id="@+id/editText2" />
+        android:id="@+id/signusername" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -50,7 +50,7 @@
         android:textColor="#FFFFFF"
         android:ems="10"
         android:background="@drawable/edittexttheme_textfield_activated_holo_light"
-        android:id="@+id/editText3" />
+        android:id="@+id/signpassword" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -68,13 +68,13 @@
         android:layout_gravity="center_horizontal" />
 
     <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#1c1c1c"
-            android:textColor="#FF0000"
-            android:text="Parolanızı mı unuttunuz ?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#1c1c1c"
+        android:textColor="#FF0000"
+        android:text="Parolanızı mı unuttunuz ?"
         android:layout_gravity="center_horizontal"
-            android:id="@+id/forgotpasswordbutton"
-            />
+        android:id="@+id/forgotpasswordbutton"
+        />
 
 </LinearLayout>

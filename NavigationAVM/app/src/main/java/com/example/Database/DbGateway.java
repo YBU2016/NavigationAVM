@@ -18,6 +18,7 @@ public class DbGateway extends SQLiteOpenHelper
     public static final String DATABASE_NAME = "AVM.db";
     private static final String TABLESTORENAME = "Stores";
     private static final String TABLEDISTANCES = "Distances";
+    private static final String TABLElOGIN = "Login" ;
 
     public DbGateway(Context context, String name, SQLiteDatabase.CursorFactory factory, int version)
     {
@@ -32,6 +33,8 @@ public class DbGateway extends SQLiteOpenHelper
                 "StoreNames TEXT unique, Zone TEXT unique)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLEDISTANCES + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "Zone TEXT, BSSID TEXT, NearZones TEXT, FarthestDistance INTEGER, ShortestDistance INTEGER)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLElOGIN + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "NAME text,SURNAME text,USERNAME text,EMAIL text,PASSWORD text)");
     }
 
     @Override

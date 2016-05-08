@@ -16,7 +16,7 @@ public abstract class IRepository
     private static final String DATABASE_NAME = "AVM.db";
 
     protected Context context;
-    protected DbGateway dbg;
+    protected static DbGateway dbg;
 
     public IRepository(Context context)
     {

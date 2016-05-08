@@ -4,15 +4,15 @@
     android:layout_height="match_parent"
     android:background="#1c1c1c">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Katıl"
-            android:id="@+id/CreateAccount"
-            android:background="#1c1c1c"
-            android:textColor="#eead0e"
-            android:textSize="17dp"
-            android:layout_gravity="right"  />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Katıl"
+        android:id="@+id/CreateAccount"
+        android:background="#1c1c1c"
+        android:textColor="#eead0e"
+        android:textSize="17dp"
+        android:layout_gravity="right"  />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -29,7 +29,7 @@
         android:hint="Ad"
         android:ems="10"
         android:background="@drawable/edittexttheme_textfield_activated_holo_light"
-        android:id="@+id/ad" />
+        android:id="@+id/rname" />
 
     <EditText
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
         android:ems="10"
         android:textColorHint="#808080"
         android:background="@drawable/edittexttheme_textfield_activated_holo_light"
-        android:id="@+id/soyad" />
+        android:id="@+id/rsurname" />
 
     <EditText
         android:layout_width="match_parent"
@@ -51,7 +51,7 @@
         android:ems="10"
         android:textColorHint="#808080"
         android:background="@drawable/edittexttheme_textfield_activated_holo_light"
-        android:id="@+id/kullanıcıadı" />
+        android:id="@+id/rusername" />
 
     <EditText
         android:layout_width="match_parent"
@@ -62,7 +62,7 @@
         android:hint="E-mail"
         android:textColorHint="#808080"
         android:background="@drawable/edittexttheme_textfield_activated_holo_light"
-        android:id="@+id/email" />
+        android:id="@+id/remail" />
 
     <EditText
         android:layout_width="match_parent"
@@ -73,7 +73,7 @@
         android:hint="Şifre"
         android:textColorHint="#808080"
         android:background="@drawable/edittexttheme_textfield_activated_holo_light"
-        android:id="@+id/password1" />
+        android:id="@+id/rpassword" />
 
     <EditText
         android:layout_width="match_parent"
@@ -84,7 +84,7 @@
         android:hint="Şifre(Tekrar)"
         android:textColorHint="#808080"
         android:background="@drawable/edittexttheme_textfield_activated_holo_light"
-        android:id="@+id/password2"
+        android:id="@+id/rcpassword"
         />
 
 </LinearLayout>

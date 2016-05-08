@@ -1,0 +1,155 @@
+package com.example.Database.Repositories;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.example.Database.Entities.BlankEntity;
+import com.example.Database.Entities.EntityBase;
+import com.example.Database.Entities.LoginEntity;
+import com.example.models.DistanceViewModel;
+
+import java.util.Vector;
+
+/**
+ * Created by omur on 08.05.2016.
+ */
+public class LoginRepository extends IRepository {
+
+    public static final String TABLE_NAME = "Login";
+    public static final String ID = "ID";
+    public static final String NAME = "Name";
+    public static final String SURNAME = "SurName";
+    public static final String USERNAME = "Username";
+    public static final String EMAIL = "Email";
+    public static final String PASSWORD = "Password";
+
+
+    public LoginRepository(Context context) {
+        super(context);
+    }
+
+    @Override
+    public long GetCount() {
+        SQLiteDatabase db = super.dbg.getReadableDatabase();
+        Cursor cur = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        long r = cur.getCount();
+        return r;
+    }
+
+    @Override
+    public boolean Add(EntityBase e) {
+
+        LoginEntity se = (LoginEntity) e;
+        SQLiteDatabase db = super.dbg.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(NAME, se.getName());
+        cv.put(SURNAME, se.getSurName());
+        cv.put(USERNAME, se.getUserName());
+        cv.put(EMAIL, se.getEmail());
+        cv.put(PASSWORD, se.getPassword());
+
+
+        long r = db.insert(TABLE_NAME, null, cv);
+        db.close();
+
+        if(r > 0)
+            return true;
+        else
+            return false;
+
+    }
+
+    @Override
+    public boolean Update(EntityBase e) {
+
+        LoginEntity se = (LoginEntity) e;
+        SQLiteDatabase db = super.dbg.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(NAME, se.getName());
+        cv.put(SURNAME, se.getSurName());
+        cv.put(USERNAME, se.getUserName());
+        cv.put(EMAIL, se.getEmail());
+        cv.put(PASSWORD, se.getPassword());
+        long r = db.update(TABLE_NAME, cv, ID + " = ?",
+                new String[]{ String.valueOf(se.getID())});
+        db.close();
+
+        if (r > 0)
+            return true;
+        else
+            return false;
+    }
+
+    @Override
+    public boolean Delete(int id) {
+        SQLiteDatabase db = super.dbg.getWritableDatabase();
+        long r = db.delete(TABLE_NAME, ID + " = ?",
+                new String[]{String.valueOf(id)});
+        db.close();
+        if (r > 0)
+            return true;
+        else
+            return false;
+    }
+
+    @Override
+    public EntityBase GetRecord(int id) {
+
+        EntityBase entity = null;
+        SQLiteDatabase db = dbg.getReadableDatabase();
+
+        Cursor cur = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE "
+                + ID + " = ?", new String[] {String.valueOf(id)});
+
+        if (cur.moveToNext())
+        {
+            entity = new LoginEntity(id, cur.getString(cur.getColumnIndex(NAME)),cur.getString(cur.getColumnIndex(SURNAME)),
+                    cur.getString(cur.getColumnIndex(USERNAME)),cur.getString(cur.getColumnIndex(EMAIL)),
+                    cur.getString(cur.getColumnIndex(PASSWORD)));
+        }
+        else
+        {
+            entity = new BlankEntity();
+        }
+
+        return entity;
+    }
+
+    @Override
+    public Vector<EntityBase> GetResult() {
+        return null;
+    }
+
+    @Override
+    public Vector<DistanceViewModel> getDistanceFromBSSID(String sendedBSSID) {
+        return null;
+    }
+
+    @Override
+    public boolean isInDatabase(String zone, String bssid, String nearzone, int fathest, int shortest) {
+        return false;
+    }
+
+
+    public static String getSinlgeEntry(String USERNAME)
+    {
+
+        SQLiteDatabase db = dbg.getReadableDatabase();
+        Cursor cursor=db.query("LOGIN", null, " Username=?", new String[]{USERNAME}, null, null, null);
+        if(cursor.getCount()<1) // UserName Not Exist
+        {
+            cursor.close();
+            return "NOT EXIST";
+        }
+        cursor.moveToFirst();
+        String password= cursor.getString(cursor.getColumnIndex("PASSWORD"));
+        cursor.close();
+        return password;
+    }
+
+
+}
