@@ -124,10 +124,10 @@ public class LoginRepository extends IRepository {
         return null;
     }
 
-    public static String getSinlgeEntry(String USERNAME)
+    public String getSinlgeEntry(String USERNAME)
     {
 
-        SQLiteDatabase db = dbg.getReadableDatabase();
+        SQLiteDatabase db = super.dbg.getReadableDatabase();
         Cursor cursor=db.query("LOGIN", null, " Username=?", new String[]{USERNAME}, null, null, null);
         if(cursor.getCount()<1) // UserName Not Exist
         {

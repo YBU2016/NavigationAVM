@@ -33,7 +33,7 @@ public abstract class IRepository
 
     /**
      * These two methods will be crashed in DistancesRepository class.
-     * From only Distance Repository Class
+     * From only DistanceRepository Class
      *
      * @return A null Vector if it is not called from DistanceRepository
      */
@@ -44,13 +44,24 @@ public abstract class IRepository
     }
 
     /**
-     * From only Distance Repository Class
+     * From only DistanceRepository Class
      *
      * @return A boolean [true]
      */
     public boolean isInDatabase(String zone, String bssid, String nearzone, int fathest, int shortest)
     {
         return true;
+    }
+
+    /**
+     * From only LoginRepository Class
+     *
+     * @return A boolean [true]
+     */
+
+    public String getSinlgeEntry(String USERNAME)
+    {
+        return null;
     }
 
 

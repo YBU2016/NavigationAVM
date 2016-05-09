@@ -8,9 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.Database.Repositories.IRepository;
 import com.example.Database.Repositories.LoginRepository;
+import com.example.Database.Repositories.RepositoryContainer;
+import com.example.Database.Repositories.RepositoryNames;
 
 public  class SigninScreen extends Activity {
+
+    private RepositoryContainer repositoryContainer;
+    private IRepository repository;
 
     Button createaccount2 ;
     Button Signin;
@@ -44,10 +50,13 @@ public  class SigninScreen extends Activity {
                 String userName=SignUserName.getText().toString();
                 String password=SignPassword.getText().toString();
 
-                String storedPassword= LoginRepository.getSinlgeEntry(userName);
+                repositoryContainer = RepositoryContainer.create(v.getContext());
+                repository = repositoryContainer.getRepository(RepositoryNames.LOGIN);
+
+                String storedPassword;
 
 // check if the Stored password matches with Password entered by user
-                if(!password.equals(storedPassword))
+                if((storedPassword= repository.getSinlgeEntry(userName)) != null && !password.equals(storedPassword))
                 {
                     Toast.makeText(SigninScreen.this, "User Name or Password does not match", Toast.LENGTH_LONG).show();
                     return;
