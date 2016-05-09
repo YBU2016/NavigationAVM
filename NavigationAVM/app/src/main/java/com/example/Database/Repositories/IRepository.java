@@ -30,8 +30,28 @@ public abstract class IRepository
     public abstract boolean Delete(int id);
     public abstract EntityBase GetRecord(int id);
     public abstract Vector<EntityBase> GetResult();
-    public abstract Vector<DistanceViewModel> getDistanceFromBSSID(String sendedBSSID);
-    public abstract boolean isInDatabase(String zone, String bssid, String nearzone, int fathest, int shortest);
+
+    /**
+     * These two methods will be crashed in DistancesRepository class.
+     * From only Distance Repository Class
+     *
+     * @return A null Vector if it is not called from DistanceRepository
+     */
+    public Vector<DistanceViewModel> getDistanceFromBSSID(String sendedBSSID)
+    {
+        Vector<DistanceViewModel> s = null;
+        return s;
+    }
+
+    /**
+     * From only Distance Repository Class
+     *
+     * @return A boolean [true]
+     */
+    public boolean isInDatabase(String zone, String bssid, String nearzone, int fathest, int shortest)
+    {
+        return true;
+    }
 
 
 }

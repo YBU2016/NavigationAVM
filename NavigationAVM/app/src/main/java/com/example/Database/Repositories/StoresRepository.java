@@ -124,14 +124,4 @@ public class StoresRepository extends IRepository
         }
         return records;
     }
-
-    @Override
-    public Vector<DistanceViewModel> getDistanceFromBSSID(String sendedBSSID) {
-        return null;
-    }
-
-    @Override
-    public boolean isInDatabase(String zone, String bssid, String nearzone, int fathest, int shortest) {
-        return false;
-    }
 }
