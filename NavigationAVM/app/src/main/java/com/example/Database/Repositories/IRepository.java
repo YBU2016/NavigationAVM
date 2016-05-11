@@ -70,6 +70,12 @@ public abstract class IRepository
      * @return A boolean [true]
      */
 
+    public boolean  isAdminInDatabase(String name, String surname, String username, String email, String password)
+    {
+        return true;
+    }
+
+
     public String getSinlgeEntry(String USERNAME)
     {
         return null;

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.Database.Entities.DistancesEntity;
+import com.example.Database.Entities.LoginEntity;
 import com.example.Database.Entities.StoresEntity;
 import com.example.models.DistanceViewModel;
 
@@ -44,7 +45,6 @@ public class StaticData
                 if(dataArray.length == 2)
                 {
                     repository = repositoryContainer.getRepository(RepositoryNames.STORENAMES);
-                    if(!repository.isInDatabase(dataArray[0]))
                     repository.Add(new StoresEntity(0, dataArray[0], dataArray[1]));
                 }
 
@@ -56,10 +56,13 @@ public class StaticData
                                 dataArray[2], Integer.parseInt(dataArray[4]), Integer.parseInt(dataArray[3])));
                     }
                 }
-
-                if(dataArray.length == 3)
-                {
-                    // TODO here the places of stores will be produced as X and Y
+                if(dataArray.length == 6) {
+                    repository = repositoryContainer.getRepository(RepositoryNames.LOGIN);
+                    if (!repository.isAdminInDatabase(dataArray[0], dataArray[1], dataArray[2],
+                            dataArray[3], dataArray[4])) {
+                        repository.Add(new LoginEntity(0, dataArray[0], dataArray[1],
+                                dataArray[2], dataArray[3], dataArray[4]));
+                    }
                 }
 
             }

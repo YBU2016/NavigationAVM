@@ -21,8 +21,10 @@ public class SplashScreen extends Activity {
 
         dbg = new DbGateway(this);
         StaticData st = new StaticData();
+        st.insertStoreTableData("admin.txt",this);
         st.insertStoreTableData("StoreNamesText.txt", this);
         st.insertStoreTableData("DistancesText.txt", this);
+
         Thread timerThread = new Thread(){
             public void run(){
                 try{

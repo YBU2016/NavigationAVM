@@ -58,42 +58,30 @@ public  class SigninScreen extends Activity {
                 repositoryContainer = RepositoryContainer.create(v.getContext());
                 repository = repositoryContainer.getRepository(RepositoryNames.LOGIN);
 
-                List<LoginEntity> loginList = new ArrayList<LoginEntity>();
-
-                for(int i =1; i<=repository.GetCount(); i++){
-
-                    LoginEntity le;
-                    if((le = (LoginEntity) repository.GetRecord(i)) != null)
-                    {
-                        LoginEntity entity = new LoginEntity(le.getID(), le.getName(), le.getSurName(),le.getUserName(),le.getEmail(),le.getPassword());
-                        loginList.add(entity);
-                    }
-
-                }
-
-                Log.d("xas", loginList.get(0).toString());
+                LoginEntity le = (LoginEntity) repository.GetRecord(1);
+               String admin = String.valueOf(repository.getSinlgeEntry(le.getUserName()));
 
                 String storedPassword;
                 Intent intent = null;
 
-// check if the Stored password matches with Password entered by user
-                if((storedPassword= repository.getSinlgeEntry(userName)) != null && !password.equals(storedPassword))
-                {
-                    Toast.makeText(SigninScreen.this, "User Name or Password does not match", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                else if(userName.equals("A") && storedPassword.equals(repository.getSinlgeEntry("A")))
+                if ( password.equals(admin))
                 {
                     Toast.makeText(SigninScreen.this, "Hello Admin" + userName, Toast.LENGTH_LONG).show();
-                    intent = new Intent(SigninScreen.this, DatabaseScreen.class);
-                }else if(storedPassword.equals(repository.getSinlgeEntry(userName)) && !userName.equals("A"))
-                {
-                    Toast.makeText(SigninScreen.this, "Hello User" + userName, Toast.LENGTH_LONG).show();
+                    intent= new Intent(SigninScreen.this, DatabaseScreen.class);
+                    startActivity(intent);
+                    return;
 
+                } else if ((storedPassword = repository.getSinlgeEntry(userName)) != null && !password.equals(storedPassword)) {
+                    Toast.makeText(SigninScreen.this, "User Name or Password does not match", Toast.LENGTH_LONG).show();
+                    return;
+                } else {
+                    Toast.makeText(SigninScreen.this, "Congrats: Login Successfull", Toast.LENGTH_LONG).show();
                     intent = new Intent(SigninScreen.this, MainPage.class);
+                    startActivity(intent);
 
                 }
-                startActivity(intent);
+
+
 
 
 

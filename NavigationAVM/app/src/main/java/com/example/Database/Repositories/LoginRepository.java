@@ -124,6 +124,7 @@ public class LoginRepository extends IRepository {
         return null;
     }
 
+    @Override
     public String getSinlgeEntry(String USERNAME)
     {
 
@@ -140,5 +141,19 @@ public class LoginRepository extends IRepository {
         return password;
     }
 
+    @Override
+    public boolean isAdminInDatabase(String name, String surname, String username, String email, String password) {
+        SQLiteDatabase dbReadable = dbg.getReadableDatabase();
+
+        Cursor cur = dbReadable.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE Name = ? AND SurName = ? " +
+                "AND Username = ? AND Email = ? AND Password = ?", new String[]
+                {name, surname, username, email, password});
+
+        if (cur.moveToFirst()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
