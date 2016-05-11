@@ -33,6 +33,7 @@ public class StoresRepository extends IRepository
         SQLiteDatabase db = super.dbg.getReadableDatabase();
         Cursor cur = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         long r = cur.getCount();
+        cur.close();
         return r;
     }
 
@@ -43,8 +44,8 @@ public class StoresRepository extends IRepository
         SQLiteDatabase db = super.dbg.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(STORENAMES, se.getStoreNames());
-        cv.put(ZONE, se.getStore_ID());
+        cv.put(STORENAMES, se.getStoreName());
+        cv.put(ZONE, se.getZone());
         long r = db.insert(TABLE_NAME, null, cv);
         db.close();
 
@@ -61,8 +62,8 @@ public class StoresRepository extends IRepository
         SQLiteDatabase db = super.dbg.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(STORENAMES, se.getStoreNames());
-        cv.put(ZONE, se.getStore_ID());
+        cv.put(STORENAMES, se.getStoreName());
+        cv.put(ZONE, se.getZone());
 
         long r = db.update(TABLE_NAME, cv, ID + " = ?",
                 new String[]{ String.valueOf(se.getID())});
@@ -105,6 +106,7 @@ public class StoresRepository extends IRepository
             entity = new BlankEntity();
         }
 
+        cur.close();
         return entity;
     }
 
@@ -122,6 +124,24 @@ public class StoresRepository extends IRepository
                     cur.getString(cur.getColumnIndex(ZONE)));
             records.add(entity);
         }
+        cur.close();
         return records;
+    }
+
+    @Override
+    public boolean isInDatabase(String storeName) {
+        SQLiteDatabase dbReadable = dbg.getReadableDatabase();
+
+        Cursor cur = dbReadable.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE StoreNames = ? ",new String[]
+                {storeName});
+
+        if (cur.moveToFirst())
+        {
+            cur.close();
+            return true;
+        }else{
+            cur.close();
+            return false;
+        }
     }
 }

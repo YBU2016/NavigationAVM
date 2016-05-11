@@ -5,29 +5,30 @@ package com.example.Database.Entities;
  */
 public class StoresEntity extends EntityBase
 {
-    private String StoreName;
-    private String Store_ID;
+    private String storeNames;
+    private String Zone;
 
-    public StoresEntity(int id, String storeName, String store_ID )
+    public StoresEntity(int id, String storeName, String zone )
     {
         super(id);
-        StoreName = storeName;
-        Store_ID = store_ID;
+        storeNames = storeName;
+        Zone = zone;
     }
 
-    public String getStore_ID() {
-        return Store_ID;
+    public String getStoreName() {
+        return storeNames;
     }
 
-    public void setStore_ID(String store_ID) {
-        Store_ID = store_ID;
+    public void setStoreName(String storeName) {
+        storeNames = storeName;
     }
 
-    public String getStoreNames() {
-        return StoreName;
+    public String getZone() {
+        return Zone;
     }
 
-    public void setStoreNames(String storeNames) {
-        StoreName = storeNames;
+    public void setZone(String zone) {
+        Zone = zone;
     }
+
 }

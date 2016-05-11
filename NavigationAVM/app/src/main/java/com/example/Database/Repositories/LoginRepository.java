@@ -116,6 +116,7 @@ public class LoginRepository extends IRepository {
             entity = new BlankEntity();
         }
 
+        cur.close();
         return entity;
     }
 

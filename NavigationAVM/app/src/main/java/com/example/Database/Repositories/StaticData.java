@@ -44,6 +44,7 @@ public class StaticData
                 if(dataArray.length == 2)
                 {
                     repository = repositoryContainer.getRepository(RepositoryNames.STORENAMES);
+                    if(!repository.isInDatabase(dataArray[0]))
                     repository.Add(new StoresEntity(0, dataArray[0], dataArray[1]));
                 }
 

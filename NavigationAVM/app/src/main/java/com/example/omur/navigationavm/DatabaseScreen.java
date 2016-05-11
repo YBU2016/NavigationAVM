@@ -21,7 +21,6 @@ import com.example.Database.Entities.DistancesEntity;
 import com.example.Database.Repositories.IRepository;
 import com.example.Database.Repositories.RepositoryContainer;
 import com.example.Database.Repositories.RepositoryNames;
-import com.example.Database.Repositories.StaticData;
 
 import java.util.HashMap;
 import java.util.Iterator;

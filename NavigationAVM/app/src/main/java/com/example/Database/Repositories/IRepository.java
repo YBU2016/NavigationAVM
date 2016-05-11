@@ -22,6 +22,7 @@ public abstract class IRepository
     {
         this.context = context;
         dbg = new DbGateway(context,DATABASE_NAME, null, 1);
+
     }
 
     public abstract long GetCount();
@@ -49,6 +50,16 @@ public abstract class IRepository
      * @return A boolean [true]
      */
     public boolean isInDatabase(String zone, String bssid, String nearzone, int fathest, int shortest)
+    {
+        return true;
+    }
+
+    /**
+     * From only StoreRepository Class
+     *
+     * @return A boolean [true]
+     */
+    public boolean isInDatabase(String storeName)
     {
         return true;
     }

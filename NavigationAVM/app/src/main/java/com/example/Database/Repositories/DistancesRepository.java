@@ -36,6 +36,7 @@ public class DistancesRepository extends IRepository
         Cursor cur = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         long r = cur.getCount();
         db.close();
+        cur.close();
         return r;
     }
 
@@ -108,7 +109,7 @@ public class DistancesRepository extends IRepository
         {
             entity = new BlankEntity();
         }
-
+        cur.close();
         return entity;
     }
 
@@ -128,6 +129,7 @@ public class DistancesRepository extends IRepository
             records.add(entity);
         }
 
+        cur.close();
         return records;
     }
 
@@ -150,7 +152,7 @@ public class DistancesRepository extends IRepository
                 records.add(entity);
             }
         }
-
+        result.close();
         return records;
     }
 
@@ -165,8 +167,10 @@ public class DistancesRepository extends IRepository
 
         if (cur.moveToFirst())
         {
+            cur.close();
             return true;
         }else{
+            cur.close();
             return false;
         }
     }

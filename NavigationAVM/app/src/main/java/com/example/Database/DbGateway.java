@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.Database.Repositories.StaticData;
+
 import java.util.ArrayList;
 
 /**
@@ -30,7 +32,7 @@ public class DbGateway extends SQLiteOpenHelper
         super(context, DATABASE_NAME, null, 1 );
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLESTORENAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "StoreNames TEXT unique, Zone TEXT unique)");
+                "StoreNames TEXT, Zone TEXT)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLEDISTANCES + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "Zone TEXT, BSSID TEXT, NearZones TEXT, FarthestDistance INTEGER, ShortestDistance INTEGER)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLElOGIN + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +

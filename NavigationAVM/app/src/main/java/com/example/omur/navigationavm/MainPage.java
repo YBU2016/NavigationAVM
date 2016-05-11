@@ -1,5 +1,6 @@
 package com.example.omur.navigationavm;
 
+import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -39,6 +40,7 @@ public class MainPage extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        MultiDex.install(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         repositoryContainer = RepositoryContainer.create(this);
 

@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.Database.Repositories.StaticData;
 import com.example.models.CoordinateViewModel;
 
 import java.io.BufferedReader;

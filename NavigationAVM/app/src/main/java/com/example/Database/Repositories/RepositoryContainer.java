@@ -3,6 +3,7 @@ package com.example.Database.Repositories;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by Alparslan on 24.4.2016.
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 public class RepositoryContainer
 {
     private static RepositoryContainer rc = null;
+    private static Object mutex = new Object();
     private Context context;
 
     private ArrayList<IRepository> repositories;
@@ -25,7 +27,10 @@ public class RepositoryContainer
     {
         if(rc == null)
         {
-            rc = new RepositoryContainer(context);
+            synchronized (mutex){
+                if(rc == null) rc = new RepositoryContainer(context);
+            }
+
         }
         return rc;
     }

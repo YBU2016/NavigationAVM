@@ -49,7 +49,7 @@ public class Fragment2 extends Fragment implements AdapterView.OnItemClickListen
         for(i=2 ; i<r ; i++)
         {
             StoresEntity se = (StoresEntity) repository.GetRecord(i);
-            StoreList.add(String.valueOf(se.getStoreNames())) ;
+            StoreList.add(se.getStoreName()) ;
         }
 
 
