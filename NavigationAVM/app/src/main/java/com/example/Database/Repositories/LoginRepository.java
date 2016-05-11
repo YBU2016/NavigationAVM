@@ -19,12 +19,11 @@ public class LoginRepository extends IRepository {
 
     public static final String TABLE_NAME = "Login";
     public static final String ID = "ID";
-    public static final String NAME = "Name";
-    public static final String SURNAME = "SurName";
-    public static final String USERNAME = "Username";
-    public static final String EMAIL = "Email";
-    public static final String PASSWORD = "Password";
-
+    public static final String NAME = "NAME";
+    public static final String SURNAME = "SURNAME";
+    public static final String USERNAME = "USERNAME";
+    public static final String EMAIL = "EMAIL";
+    public static final String PASSWORD = "PASSWORD";
 
     public LoginRepository(Context context) {
         super(context);
