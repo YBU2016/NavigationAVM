@@ -84,11 +84,11 @@ public  class SigninScreen extends Activity {
                 }
                 else if(userName.equals("A") && storedPassword.equals(repository.getSinlgeEntry("A")))
                 {
-                    Toast.makeText(SigninScreen.this, "Hello ABLAN STAR", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SigninScreen.this, "Hello Admin" + userName, Toast.LENGTH_LONG).show();
                     intent = new Intent(SigninScreen.this, DatabaseScreen.class);
                 }else if(storedPassword.equals(repository.getSinlgeEntry(userName)) && !userName.equals("A"))
                 {
-                    Toast.makeText(SigninScreen.this, "Hello Loser User Ömür :D", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SigninScreen.this, "Hello User" + userName, Toast.LENGTH_LONG).show();
 
                     intent = new Intent(SigninScreen.this, MainPage.class);
 
