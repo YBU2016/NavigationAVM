@@ -55,13 +55,13 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="49dp"
+        android:layout_height="29dp"
         android:layout_gravity="center_horizontal"></LinearLayout>
 
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
         android:text="Giriş Yap"
         android:id="@+id/signinbutton"
         android:background="#eead0e"

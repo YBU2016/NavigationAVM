@@ -4,12 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.Database.Repositories.StaticData;
+
 public class SplashScreen extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splashscreen);
+
+        StaticData st = new StaticData();
+        st.insertStoreTableData("StoreNamesText.txt", this);
+        st.insertStoreTableData("DistancesText.txt", this);
 
         Thread timerThread = new Thread(){
             public void run(){

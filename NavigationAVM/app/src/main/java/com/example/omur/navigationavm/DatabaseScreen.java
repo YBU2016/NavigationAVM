@@ -56,9 +56,7 @@ public class DatabaseScreen extends Activity
         RepositoryContainer repositoryContainer = RepositoryContainer.create(this);
         repository = repositoryContainer.getRepository(RepositoryNames.DISTANCES);
 
-        StaticData st = new StaticData();
-        st.insertStoreTableData("StoreNamesText.txt", this);
-        st.insertStoreTableData("DistancesText.txt", this);
+
 
         /**
          * Scanning Wifi code, Starting here.

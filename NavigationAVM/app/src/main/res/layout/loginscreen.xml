@@ -51,11 +51,12 @@
 
         <Button
             android:layout_width="300dp"
-            android:layout_height="30dp"
+            android:layout_height="26dp"
             android:id="@+id/ebutton"
             android:background="#0099FF"
             android:layout_gravity="center_horizontal"
-            android:text="E-posta"
+            android:text="E-posta ile giriş yap"
+            android:textSize="15dp"
             android:textColor="#ffffff"
             android:layout_marginTop="10dp"/>
 
