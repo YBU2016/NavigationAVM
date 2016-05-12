@@ -2,7 +2,6 @@ package com.example.omur.navigationavm;
 
 import android.content.Context;
 
-import com.example.Database.Repositories.DistancesRepository;
 import com.example.Database.Repositories.IRepository;
 import com.example.Database.Repositories.RepositoryContainer;
 import com.example.Database.Repositories.RepositoryNames;
@@ -32,7 +31,7 @@ public class Area
     public Area(Context context) {
         this.context = context;
     }
-    public String findZone(HashMap<Double, String> scanResultsMap) {
+    public String findZone(TreeMap<Double, String> scanResultsMap) {
         String area = "";
         rc = RepositoryContainer.create(context);
         repository = rc.getRepository(RepositoryNames.DISTANCES);
@@ -44,6 +43,7 @@ public class Area
 
             if((model = repository.getDistanceFromBSSID(entry.getValue())) != null) {
                 String modelString;
+
                 for (int counter = 0; counter < model.size(); counter++) {
                     modelString = model.get(counter).zone;
                     /** Below if controls the distance. */

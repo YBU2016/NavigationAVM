@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.example.Database.DbGateway;
 import com.example.Database.Entities.EntityBase;
+import com.example.Database.Entities.StoresEntity;
 import com.example.models.DistanceViewModel;
+import com.example.models.StoresViewModel;
 
 import java.util.Vector;
 
@@ -31,6 +33,10 @@ public abstract class IRepository
     public abstract boolean Delete(int id);
     public abstract EntityBase GetRecord(int id);
     public abstract Vector<EntityBase> GetResult();
+
+    public Vector<StoresViewModel> GetAllRecords(){
+        return null;
+    }
 
     /**
      * These two methods will be crashed in DistancesRepository class.

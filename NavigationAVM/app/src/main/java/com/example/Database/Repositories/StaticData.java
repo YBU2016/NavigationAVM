@@ -6,15 +6,10 @@ import android.util.Log;
 import com.example.Database.Entities.DistancesEntity;
 import com.example.Database.Entities.LoginEntity;
 import com.example.Database.Entities.StoresEntity;
-import com.example.models.DistanceViewModel;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Vector;
 
 /**
  * Created by Alparslan on 7.5.2016.
@@ -26,7 +21,6 @@ public class StaticData
 {
     private RepositoryContainer repositoryContainer;
     private IRepository repository;
-    private Vector<DistanceViewModel> model;
 
     public void insertStoreTableData(String fileName, Context context)
     {
@@ -45,7 +39,10 @@ public class StaticData
                 if(dataArray.length == 2)
                 {
                     repository = repositoryContainer.getRepository(RepositoryNames.STORENAMES);
-                    repository.Add(new StoresEntity(0, dataArray[0], dataArray[1]));
+                    if(!repository.isInDatabase(dataArray[0])){
+                        repository.Add(new StoresEntity(0, dataArray[0], dataArray[1]));
+                    }
+
                 }
 
                 if(dataArray.length == 5) {

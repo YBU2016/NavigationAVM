@@ -4,11 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.Database.Entities.BlankEntity;
 import com.example.Database.Entities.EntityBase;
 import com.example.Database.Entities.StoresEntity;
 import com.example.models.DistanceViewModel;
+import com.example.models.StoresViewModel;
 
 import java.util.Vector;
 
@@ -126,6 +128,24 @@ public class StoresRepository extends IRepository
         }
         cur.close();
         return records;
+    }
+
+    @Override
+    public Vector<StoresViewModel> GetAllRecords() {
+        StoresViewModel entity;
+        SQLiteDatabase db = dbg.getReadableDatabase();
+
+        Cursor cur = db.rawQuery("SELECT " + STORENAMES + ", " +ZONE + " FROM " + TABLE_NAME, null);
+
+        Vector<StoresViewModel> records = new Vector<StoresViewModel>(cur.getCount());
+        while (cur.moveToNext())
+        {
+            entity = new StoresViewModel(cur.getString(0), cur.getString(1));
+            records.add(entity);
+        }
+        cur.close();
+        return records;
+
     }
 
     @Override

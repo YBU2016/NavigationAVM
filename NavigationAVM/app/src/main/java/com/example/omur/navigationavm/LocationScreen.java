@@ -32,8 +32,8 @@ import java.util.TreeMap;
  */
 public class LocationScreen extends Activity
 {
-    private String Zone = "";
-    public static HashMap<Double, String> FiveOfResultMap = new HashMap<>();
+    private String Zone = null;
+    public static TreeMap<Double, String> FiveOfResultMap = new TreeMap<>();
     public static WifiManager wifi;
     public static List<ScanResult> results;
 
@@ -108,12 +108,24 @@ public class LocationScreen extends Activity
                     });
 
                     List<Integer> coordinateList = new ArrayList<>();
-                    coordinateList = getCoordinates("MarkerCoordinates.txt", c, Zone);
+                    if(Zone.equals(null) && (coordinateList = getCoordinates("MarkerCoordinates.txt", c, Zone)) != null && !Zone.equals(""))
+                    {
+                        if(coordinateList.size()>0)
+                        {
+                            params = new RelativeLayout.LayoutParams(30,30);
+                            params.leftMargin = coordinateList.get(0);
+                            params.topMargin = coordinateList.get(1);
+                            rv.addView(image, params);
+                        }else{
+                            Toast.makeText(c, Zone + "Is not in MarkerCoordinates.txt", Toast.LENGTH_LONG).show();
+                        }
 
-                    params = new RelativeLayout.LayoutParams(30,30);
-                    params.leftMargin = coordinateList.get(0);
-                    params.topMargin = coordinateList.get(1);
-                    rv.addView(image, params);
+                    }else if (Zone == "" || Zone == null){
+                        Toast.makeText(c, "Zone could not retrieved", Toast.LENGTH_LONG).show();
+                    }
+
+
+
 
 
                 }else{
@@ -157,8 +169,6 @@ public class LocationScreen extends Activity
 
                     returningList.add(entry.coordinateX);
                     returningList.add(entry.coordinateY);
-
-
                 }
             }
         }catch (FileNotFoundException e){
