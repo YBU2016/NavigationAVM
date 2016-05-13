@@ -12,16 +12,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.Database.Repositories.StaticData;
+import com.example.Database.Repositories.IRepository;
+import com.example.Database.Repositories.RepositoryContainer;
+import com.example.Database.Repositories.RepositoryNames;
 import com.example.models.CoordinateViewModel;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -30,14 +37,16 @@ import java.util.TreeMap;
 /**
  * Created by Alparslan on 7.5.2016.
  */
-public class LocationScreen extends Activity
-{
+public class LocationScreen extends Activity {
     private String Zone = null;
+    private final String FILENAME = "destination";
     public static TreeMap<Double, String> FiveOfResultMap = new TreeMap<>();
     public static WifiManager wifi;
     public static List<ScanResult> results;
+    private RepositoryContainer repositoryContainer;
+    private IRepository repository;
 
-    public double calculateDistance(double levelInDb, double freqInMHz){
+    public double calculateDistance(double levelInDb, double freqInMHz) {
         double exp = (27.55 - (20 * Math.log10(freqInMHz)) + Math.abs(levelInDb)) / 20.0;
         return Math.pow(10.0, exp);
     }
@@ -46,6 +55,61 @@ public class LocationScreen extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.locationscreen);
+
+
+        String fpath = "/sdcard/" + FILENAME + ".txt";
+        File file = new File(fpath);
+
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            InputStreamReader isr = new InputStreamReader(fis);
+
+            BufferedReader br = new BufferedReader(isr);
+            String line = "";
+            List<Integer> coordinateList = new ArrayList<>();
+            if ((line = br.readLine()) != null) {
+                repositoryContainer = RepositoryContainer.create(this);
+                repository = repositoryContainer.getRepository(RepositoryNames.STORENAMES);
+                String destinationZone = repository.getZoneFromStoreName(line);
+                // Deleting the file.
+                file.delete();
+
+                if ((coordinateList = getCoordinates("MarkerCoordinates.txt", this, destinationZone)) != null) {
+                    RelativeLayout rv = (RelativeLayout) findViewById(R.id.OuterRelativeLayout);
+                    RelativeLayout.LayoutParams params;
+                    ImageButton image = new ImageButton(this);
+                    image.setBackgroundResource(R.drawable.blue);
+                    image.setId(View.NO_ID);
+
+                    image.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(v.getContext(), "Destination", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                    if (coordinateList.size() > 0) {
+                        params = new RelativeLayout.LayoutParams(30, 30);
+                        params.leftMargin = coordinateList.get(0);
+                        params.topMargin = coordinateList.get(1);
+                        rv.addView(image, params);
+                    }
+
+                } else {
+                    Toast.makeText(this, "This zone has not markercoordinates", Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                Toast.makeText(this, "File is empty", Toast.LENGTH_LONG).show();
+            }
+            fis.close();
+            isr.close();
+            br.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         /**
          * Scanning Wifi code, Starting here.
@@ -57,6 +121,7 @@ public class LocationScreen extends Activity
             public void onReceive(Context c, Intent intent) {
                 results = wifi.getScanResults();
                 TreeMap resultMap = new TreeMap<>();
+
 
                 /**
                  * This loop is the most important part of the project.
@@ -72,19 +137,17 @@ public class LocationScreen extends Activity
                  */
                 int count = 0;
                 Iterator<Map.Entry<Double, String>> entries = resultMap.entrySet().iterator();
-                while(entries.hasNext())
-                {
+                while (entries.hasNext()) {
                     Map.Entry<Double, String> entry = entries.next();
-                    if(count > 4) break;
+                    if (count > 4) break;
                     FiveOfResultMap.put(entry.getKey(), entry.getValue());
                     count++;
                 }
 
 
-
-                if(FiveOfResultMap.size() > 0)
-                {
-                    /**
+                if (FiveOfResultMap.size() > 0) {
+                    /** 7c 82 08
+                     *  88 41 fc 18
                      * This part is finding zone. We sent nearest 5 modems to Area Class.
                      */
 
@@ -108,27 +171,21 @@ public class LocationScreen extends Activity
                     });
 
                     List<Integer> coordinateList = new ArrayList<>();
-                    if(Zone.equals(null) && (coordinateList = getCoordinates("MarkerCoordinates.txt", c, Zone)) != null && !Zone.equals(""))
-                    {
-                        if(coordinateList.size()>0)
-                        {
-                            params = new RelativeLayout.LayoutParams(30,30);
+                    if (!Zone.equals(null) && (coordinateList = getCoordinates("MarkerCoordinates.txt", c, Zone)) != null && !Zone.equals("")) {
+                        if (coordinateList.size() > 0) {
+                            params = new RelativeLayout.LayoutParams(30, 30);
                             params.leftMargin = coordinateList.get(0);
                             params.topMargin = coordinateList.get(1);
                             rv.addView(image, params);
-                        }else{
+                        } else {
                             Toast.makeText(c, Zone + "Is not in MarkerCoordinates.txt", Toast.LENGTH_LONG).show();
                         }
 
-                    }else if (Zone == "" || Zone == null){
+                    } else if (Zone == "" || Zone == null) {
                         Toast.makeText(c, "Zone could not retrieved", Toast.LENGTH_LONG).show();
                     }
 
-
-
-
-
-                }else{
+                } else {
                     Toast.makeText(LocationScreen.this, "Please open Wi-Fi", Toast.LENGTH_SHORT).show();
                 }
 
@@ -138,12 +195,15 @@ public class LocationScreen extends Activity
         wifi.startScan();
         /**
          * Wifi scan code finishes Here
+         *
+         * If user choose the store which he/she wants to go, we will show this store's place in floor plan
          */
+
 
     }
 
-    public List<Integer> getCoordinates(String fileName, Context context, String sendedZone)
-    {
+
+    public List<Integer> getCoordinates(String fileName, Context context, String sendedZone) {
         BufferedReader bufferedReader = null;
         List<Integer> returningList = new ArrayList<>();
 
@@ -154,8 +214,7 @@ public class LocationScreen extends Activity
             String line;
             List<CoordinateViewModel> coordinateList = new ArrayList<>();
 
-            while((line = bufferedReader.readLine()) != null)
-            {
+            while ((line = bufferedReader.readLine()) != null) {
                 String[] dataArray = line.split("\\+");
                 CoordinateViewModel coordinates = new CoordinateViewModel(dataArray[0], Integer.parseInt(dataArray[1]), Integer.parseInt(dataArray[2]));
                 coordinateList.add(coordinates);
@@ -163,7 +222,7 @@ public class LocationScreen extends Activity
 
 
             Iterator<CoordinateViewModel> entryList = coordinateList.iterator();
-            while(entryList.hasNext()) {
+            while (entryList.hasNext()) {
                 CoordinateViewModel entry = entryList.next();
                 if (entry.zone.equals(sendedZone)) {
 
@@ -171,18 +230,18 @@ public class LocationScreen extends Activity
                     returningList.add(entry.coordinateY);
                 }
             }
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             Log.d("File not found", e.getMessage());
-        }catch (Exception e) {
+        } catch (Exception e) {
             Log.d("Data was not taken", e.getMessage());
-        }finally {
+        } finally {
             try {
                 assert bufferedReader != null;
                 bufferedReader.close();
             } catch (Exception e) {
-                Log.d("BF not closed",e.getMessage());
+                Log.d("BF not closed", e.getMessage());
             }
         }
-        return  returningList;
+        return returningList;
     }
 }

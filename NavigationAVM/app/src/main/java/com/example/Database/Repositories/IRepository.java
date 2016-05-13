@@ -70,6 +70,11 @@ public abstract class IRepository
         return true;
     }
 
+    public String getZoneFromStoreName(String storeName)
+    {
+        return null;
+    }
+
     /**
      * From only LoginRepository Class
      *

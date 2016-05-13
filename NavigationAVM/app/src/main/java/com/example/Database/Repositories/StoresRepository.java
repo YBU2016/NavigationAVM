@@ -164,4 +164,21 @@ public class StoresRepository extends IRepository
             return false;
         }
     }
+
+    @Override
+    public String getZoneFromStoreName(String storeName) {
+        SQLiteDatabase db = dbg.getReadableDatabase();
+
+        String Zone = null;
+        Cursor cur = db.rawQuery("SELECT " + ZONE + " FROM " + TABLE_NAME + " WHERE StoreNames = ? ",new String[]
+                {storeName});
+
+        if(cur.moveToNext())
+        {
+            Zone = cur.getString(0);
+        }
+
+        cur.close();
+        return Zone;
+    }
 }

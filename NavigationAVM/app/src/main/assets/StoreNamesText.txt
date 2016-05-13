@@ -67,3 +67,4 @@ LCW+1.2.42
 Casio+1.3.0
 Elif Optik+1.3.2
 Hatır Kahvesi+1.3.4
+Yunus Emre+5.1.4

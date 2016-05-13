@@ -3,12 +3,15 @@ package com.example.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.Database.Entities.EntityBase;
 import com.example.Database.Entities.StoresEntity;
@@ -20,6 +23,10 @@ import com.example.omur.navigationavm.DatabaseScreen;
 import com.example.omur.navigationavm.LocationScreen;
 import com.example.omur.navigationavm.R;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -27,6 +34,8 @@ import java.util.Vector;
 
 public class Fragment1 extends Fragment
 {
+    private final String FILENAME = "destination";
+
     Button goDatabaseButton, goLocationScreenButton;
     private AutoCompleteTextView autoCompleteTextView;
 
@@ -56,6 +65,17 @@ public class Fragment1 extends Fragment
 
         autoCompleteTextView.setAdapter(adapter);
 
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    writeToFile(String.valueOf(parent.getItemAtPosition(position)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         goDatabaseButton = (Button) v.findViewById(R.id.AddData);
         goDatabaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,4 +97,19 @@ public class Fragment1 extends Fragment
 
         return v;
     }
+
+    public void writeToFile(String storeName) throws IOException {
+        String fpath = "/sdcard/" + FILENAME + ".txt";
+        File file = new File(fpath);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        FileWriter fwriter = new FileWriter(file.getAbsoluteFile());
+        BufferedWriter bw = new BufferedWriter(fwriter);
+        bw.write(storeName.toString());
+
+        bw.close();
+        fwriter.close();
+    }
+
 }
