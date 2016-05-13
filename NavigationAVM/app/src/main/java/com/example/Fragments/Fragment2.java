@@ -17,6 +17,7 @@ import com.example.Database.Repositories.RepositoryNames;
 import com.example.omur.navigationavm.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -53,7 +54,7 @@ public class Fragment2 extends Fragment implements AdapterView.OnItemClickListen
         }
 
 
-
+        Collections.sort(StoreList);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getActivity(), R.layout.store_list, R.id.storetxt, StoreList
         );

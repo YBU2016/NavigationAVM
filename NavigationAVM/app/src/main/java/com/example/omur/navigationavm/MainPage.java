@@ -1,5 +1,6 @@
 package com.example.omur.navigationavm;
 
+import android.content.Intent;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -12,9 +13,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.support.v4.app.FragmentManager;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.Adapters.NavListAdapter;
+import com.example.Database.Repositories.IRepository;
 import com.example.Database.Repositories.RepositoryContainer;
+import com.example.Database.Repositories.RepositoryNames;
 import com.example.DrawerFragments.fragment_about;
 import com.example.DrawerFragments.fragment_home;
 import com.example.DrawerFragments.fragment_settings;
@@ -29,6 +34,8 @@ public class MainPage extends AppCompatActivity
     DrawerLayout drawerLayout ;
     RelativeLayout drawerPane ;
     ListView lstNav ;
+    IRepository repository ;
+   TextView Cusername ,Cusersurname ;
 
     List<NavItem> listnavitem ;
     List<Fragment> listfragment ;
@@ -50,6 +57,9 @@ public class MainPage extends AppCompatActivity
 
 
         // drawer listesine adapter kullanarak title subtitle ve icon atamak için ;
+        repository = repositoryContainer.getRepository(RepositoryNames.LOGIN) ;
+        Cusername = (TextView) findViewById(R.id.connectedusername);
+
 
         listnavitem=new ArrayList<NavItem>() ;
         listnavitem.add(new NavItem("Home","Home Page",R.mipmap.ic_launcher)) ;
@@ -115,7 +125,22 @@ public class MainPage extends AppCompatActivity
         };
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
+       if(SigninScreen.x==1) {
+           Intent i = getIntent();
+           String Uname = i.getExtras().getString("uname");
+           Cusername.setText(Uname);
+
+       }
+        else{
+
+           Toast.makeText(MainPage.this, "Hello Guest", Toast.LENGTH_LONG).show(); }
+
+        SigninScreen.x=0 ;
+
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

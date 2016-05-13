@@ -25,6 +25,7 @@ public  class SigninScreen extends Activity {
 
     Button createaccount2 ;
     Button Signin;
+    static int x=0 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +60,12 @@ public  class SigninScreen extends Activity {
                 repository = repositoryContainer.getRepository(RepositoryNames.LOGIN);
 
                 LoginEntity le = (LoginEntity) repository.GetRecord(1);
-               String admin = String.valueOf(repository.getSinlgeEntry(le.getUserName()));
+               String adminpassword = String.valueOf(repository.getSinlgeEntry(le.getUserName()));
 
                 String storedPassword;
                 Intent intent = null;
 
-                if ( password.equals(admin))
+                if ( userName.equals(le.getUserName()) && password.equals(adminpassword))
                 {
                     Toast.makeText(SigninScreen.this, "Hello Admin" + userName, Toast.LENGTH_LONG).show();
                     intent= new Intent(SigninScreen.this, DatabaseScreen.class);
@@ -76,7 +77,12 @@ public  class SigninScreen extends Activity {
                     return;
                 } else {
                     Toast.makeText(SigninScreen.this, "Congrats: Login Successfull", Toast.LENGTH_LONG).show();
+                     String Uname =userName ;
+
                     intent = new Intent(SigninScreen.this, MainPage.class);
+                    intent.putExtra("uname",Uname);
+                    Log.d("bilgiler",Uname) ;
+                    x=1 ;
                     startActivity(intent);
 
                 }
