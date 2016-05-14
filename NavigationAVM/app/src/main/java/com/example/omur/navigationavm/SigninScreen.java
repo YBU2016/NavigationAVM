@@ -25,7 +25,10 @@ public  class SigninScreen extends Activity {
 
     Button createaccount2 ;
     Button Signin;
-    static int x=0 ;
+    public static int controluser=0 ;
+    public static int controlsettings=0 ;
+    public static String Uname ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +80,13 @@ public  class SigninScreen extends Activity {
                     return;
                 } else {
                     Toast.makeText(SigninScreen.this, "Congrats: Login Successfull", Toast.LENGTH_LONG).show();
-                     String Uname =userName ;
+                     Uname =userName ;
 
                     intent = new Intent(SigninScreen.this, MainPage.class);
                     intent.putExtra("uname",Uname);
                     Log.d("bilgiler",Uname) ;
-                    x=1 ;
+                    controluser=1 ;
+                    controlsettings=1 ;
                     startActivity(intent);
 
                 }

@@ -68,8 +68,8 @@ public class LoginRepository extends IRepository {
         SQLiteDatabase db = super.dbg.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(NAME, se.getName());
-        cv.put(SURNAME, se.getSurName());
+       // cv.put(NAME, se.getName()); -
+       // cv.put(SURNAME, se.getSurName()); -
         cv.put(USERNAME, se.getUserName());
         cv.put(EMAIL, se.getEmail());
         cv.put(PASSWORD, se.getPassword());
@@ -139,6 +139,23 @@ public class LoginRepository extends IRepository {
         String password= cursor.getString(cursor.getColumnIndex("PASSWORD"));
         cursor.close();
         return password;
+    }
+
+    public String GetId(String USERNAME)
+    {
+
+
+        SQLiteDatabase db = super.dbg.getReadableDatabase();
+        Cursor cursor=db.query("LOGIN", null, " Username=?", new String[]{USERNAME}, null, null, null);
+        if(cursor.getCount()<1) // UserName Not Exist
+        {
+            cursor.close();
+            return "NOT EXIST";
+        }
+        cursor.moveToFirst();
+        String id= cursor.getString(cursor.getColumnIndex("ID"));
+        cursor.close();
+        return id;
     }
 
     @Override

@@ -126,7 +126,7 @@ public class MainPage extends AppCompatActivity
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
-       if(SigninScreen.x==1) {
+       if(SigninScreen.controluser==1) {
            Intent i = getIntent();
            String Uname = i.getExtras().getString("uname");
            Cusername.setText(Uname);
@@ -136,7 +136,7 @@ public class MainPage extends AppCompatActivity
 
            Toast.makeText(MainPage.this, "Hello Guest", Toast.LENGTH_LONG).show(); }
 
-        SigninScreen.x=0 ;
+        SigninScreen.controluser=0 ;
 
     }
 

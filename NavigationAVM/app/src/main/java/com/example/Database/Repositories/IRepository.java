@@ -92,5 +92,7 @@ public abstract class IRepository
         return null;
     }
 
+    public  String GetId (String USERNAME) {return null;}
+
 
 }
