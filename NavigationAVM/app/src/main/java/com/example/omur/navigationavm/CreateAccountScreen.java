@@ -69,10 +69,10 @@ public class CreateAccountScreen extends Activity {
                 {
 // Save the Data in Database
                     rps.Add(new LoginEntity(0,Name,SurName,userName,mail, password));
-                    Toast.makeText(getApplicationContext(), "Account Successfully Created ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Account Successfully Created ,Please Sıgn In ", Toast.LENGTH_LONG).show();
                 }
 
-                Intent intent = new Intent(CreateAccountScreen.this, MainPage.class);
+                Intent intent = new Intent(CreateAccountScreen.this, SigninScreen.class);
                 startActivity(intent);
 
             }

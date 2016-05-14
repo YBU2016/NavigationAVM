@@ -66,8 +66,8 @@ public class StoresRepository extends IRepository
         SQLiteDatabase db = super.dbg.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(STORENAMES, se.getStoreName());
-        cv.put(ZONE, se.getZone());
+      //  cv.put(STORENAMES, se.getStoreName());
+     //   cv.put(ZONE, se.getZone());
         cv.put(COUNT, se.getCount());
         long r = db.update(TABLE_NAME, cv, ID + " = ?",
                 new String[]{ String.valueOf(se.getID())});
@@ -166,6 +166,24 @@ public class StoresRepository extends IRepository
             return false;
         }
     }
+
+    @Override
+    public String getIdFromStoreName(String storeName) {
+        SQLiteDatabase db = dbg.getReadableDatabase();
+
+        String id = null;
+        Cursor cur = db.rawQuery("SELECT " + ID + " FROM " + TABLE_NAME + " WHERE StoreNames = ? ",new String[]
+                {storeName});
+
+        if(cur.moveToNext())
+        {
+            id = cur.getString(0);
+        }
+
+        cur.close();
+        return id;
+    }
+
 
     @Override
     public String getZoneFromStoreName(String storeName) {

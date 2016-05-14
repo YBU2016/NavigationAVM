@@ -41,6 +41,7 @@ public class Fragment1 extends Fragment
 
     private RepositoryContainer repositoryContainer;
     private IRepository repository;
+    int storecount,storeid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,6 +71,14 @@ public class Fragment1 extends Fragment
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
                     writeToFile(String.valueOf(parent.getItemAtPosition(position)));
+
+                    storeid=Integer.parseInt(repository.getIdFromStoreName(String.valueOf(parent.getItemAtPosition(position))));
+                    StoresEntity se = (StoresEntity) repository.GetRecord(storeid);
+                    storecount=se.getCount();
+                    storecount=storecount+1 ;
+                    repository.Update(new StoresEntity(storeid, null, null,storecount));
+                    Log.d("countstore", String.valueOf(storecount));
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -74,7 +74,10 @@ public abstract class IRepository
     {
         return null;
     }
-
+    public String getIdFromStoreName(String storeName)
+    {
+        return null;
+    }
     /**
      * From only LoginRepository Class
      *
