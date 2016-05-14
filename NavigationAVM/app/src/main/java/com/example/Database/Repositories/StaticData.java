@@ -36,11 +36,11 @@ public class StaticData
             while((line = bufferedReader.readLine()) != null)
             {
                 String[] dataArray = line.split("\\+");
-                if(dataArray.length == 2)
+                if(dataArray.length == 3)
                 {
                     repository = repositoryContainer.getRepository(RepositoryNames.STORENAMES);
                     if(!repository.isInDatabase(dataArray[0])){
-                        repository.Add(new StoresEntity(0, dataArray[0], dataArray[1]));
+                        repository.Add(new StoresEntity(0, dataArray[0], dataArray[1], Integer.parseInt(dataArray[2])));
                     }
 
                 }

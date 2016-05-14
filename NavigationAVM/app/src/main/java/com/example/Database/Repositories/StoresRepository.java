@@ -23,6 +23,7 @@ public class StoresRepository extends IRepository
     public static final String ID = "ID";
     public static final String STORENAMES = "StoreNames";
     public static final String ZONE = "Zone";
+    public static final String COUNT = "Count";
 
     public StoresRepository(Context context)
     {
@@ -48,6 +49,7 @@ public class StoresRepository extends IRepository
 
         cv.put(STORENAMES, se.getStoreName());
         cv.put(ZONE, se.getZone());
+        cv.put(COUNT, se.getCount());
         long r = db.insert(TABLE_NAME, null, cv);
         db.close();
 
@@ -66,7 +68,7 @@ public class StoresRepository extends IRepository
 
         cv.put(STORENAMES, se.getStoreName());
         cv.put(ZONE, se.getZone());
-
+        cv.put(COUNT, se.getCount());
         long r = db.update(TABLE_NAME, cv, ID + " = ?",
                 new String[]{ String.valueOf(se.getID())});
         db.close();
@@ -101,7 +103,7 @@ public class StoresRepository extends IRepository
         if (cur.moveToNext())
         {
             entity = new StoresEntity(id, cur.getString(cur.getColumnIndex(STORENAMES)),
-                    cur.getString(cur.getColumnIndex(ZONE)));
+                    cur.getString(cur.getColumnIndex(ZONE)), cur.getInt(cur.getColumnIndex(COUNT)));
         }
         else
         {
@@ -123,7 +125,7 @@ public class StoresRepository extends IRepository
         while (cur.moveToFirst())
         {
             entity = new StoresEntity(cur.getInt(0), cur.getString(cur.getColumnIndex(STORENAMES)),
-                    cur.getString(cur.getColumnIndex(ZONE)));
+                    cur.getString(cur.getColumnIndex(ZONE)), cur.getInt(cur.getColumnIndex(COUNT)));
             records.add(entity);
         }
         cur.close();

@@ -32,7 +32,7 @@ public class DbGateway extends SQLiteOpenHelper
         super(context, DATABASE_NAME, null, 1 );
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLESTORENAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "StoreNames TEXT, Zone TEXT)");
+                "StoreNames TEXT, Zone TEXT, Count INTEGER)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLEDISTANCES + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "Zone TEXT, BSSID TEXT, NearZones TEXT, FarthestDistance INTEGER, ShortestDistance INTEGER)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLElOGIN + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
