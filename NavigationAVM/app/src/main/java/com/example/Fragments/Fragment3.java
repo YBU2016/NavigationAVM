@@ -156,8 +156,8 @@ public class Fragment3 extends Fragment {
                 String strcnt=cnt.replaceAll("\\s","");
 
 
-              //  Log.d("say",strname) ;
-               // Log.d("says",strcnt) ;
+               Log.d("say",strname) ;
+                Log.d("says",strcnt) ;
 
 
                 strcount = Integer.parseInt(strcnt);

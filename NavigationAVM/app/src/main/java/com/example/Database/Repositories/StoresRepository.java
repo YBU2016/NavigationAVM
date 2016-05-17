@@ -137,12 +137,12 @@ public class StoresRepository extends IRepository
         StoresViewModel entity;
         SQLiteDatabase db = dbg.getReadableDatabase();
 
-        Cursor cur = db.rawQuery("SELECT " + STORENAMES + ", " +ZONE + ", " +COUNT +" FROM " + TABLE_NAME, null);
+        Cursor cur = db.rawQuery("SELECT " + STORENAMES + ", " +ZONE +" FROM " + TABLE_NAME, null);
 
         Vector<StoresViewModel> records = new Vector<StoresViewModel>(cur.getCount());
         while (cur.moveToNext())
         {
-            entity = new StoresViewModel(cur.getString(0), cur.getString(1),cur.getInt(2));
+            entity = new StoresViewModel(cur.getString(0), cur.getString(1));
             records.add(entity);
         }
         cur.close();
