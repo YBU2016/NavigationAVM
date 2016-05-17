@@ -9,11 +9,20 @@ public class StoresViewModel extends EntityBase
 {
     public String StoreNames;
     public String Zone;
-
-    public StoresViewModel(String storeNames, String zone) {
+    public int Count;
+    public StoresViewModel(String storeNames, String zone, int count) {
         super();
         StoreNames = storeNames;
         Zone = zone;
+        Count=count ;
+    }
+
+    public int getCount() {
+        return Count;
+    }
+
+    public void setCount(int count) {
+        Count = count;
     }
 
     public StoresViewModel(){}
@@ -33,4 +42,5 @@ public class StoresViewModel extends EntityBase
     public void setZone(String zone) {
         Zone = zone;
     }
+
 }
