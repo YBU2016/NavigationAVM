@@ -4,14 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.example.Database.Entities.BlankEntity;
 import com.example.Database.Entities.EntityBase;
 import com.example.Database.Entities.StoresEntity;
-import com.example.models.DistanceViewModel;
 import com.example.models.StoresViewModel;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -182,6 +181,25 @@ public class StoresRepository extends IRepository
 
         cur.close();
         return id;
+    }
+
+    @Override
+    public ArrayList<String> getTopStoreName() {
+        SQLiteDatabase db = dbg.getReadableDatabase();
+        ArrayList<String> TopList=new ArrayList<>();
+
+        Cursor cur = db.rawQuery("SELECT " + STORENAMES + " FROM " + TABLE_NAME + " ORDER BY "+ COUNT + " DESC " ,new String[]
+                {});
+
+        while(cur.moveToNext())
+        {
+            TopList.add(cur.getString(0));
+        }
+
+        cur.close();
+
+
+        return TopList;
     }
 
 

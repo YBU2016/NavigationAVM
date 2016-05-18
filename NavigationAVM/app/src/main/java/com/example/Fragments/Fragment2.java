@@ -30,7 +30,7 @@ public class Fragment2 extends Fragment implements AdapterView.OnItemClickListen
 
     private RepositoryContainer repositoryContainer;
     private IRepository repository;
-    int i ;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -39,22 +39,15 @@ public class Fragment2 extends Fragment implements AdapterView.OnItemClickListen
        repositoryContainer = RepositoryContainer.create(v.getContext());
         repository = repositoryContainer.getRepository(RepositoryNames.STORENAMES);
 
-        int r = (int) repository.GetCount();
 
         lst = (ListView)v.findViewById(R.id.StorelistView);
 
         lst.setOnItemClickListener(this);
 
         StoreList=new ArrayList<>();
-
-        for(i=2 ; i<r ; i++)
-        {
-            StoresEntity se = (StoresEntity) repository.GetRecord(i);
-            StoreList.add(se.getStoreName()) ;
-        }
-
-
+        StoreList=repository.getTopStoreName();
         Collections.sort(StoreList);
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getActivity(), R.layout.store_list, R.id.storetxt, StoreList
         );

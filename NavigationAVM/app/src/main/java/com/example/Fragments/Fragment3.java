@@ -35,7 +35,9 @@ import org.apache.http.params.HttpParams;
 import android.os.AsyncTask;
 import android.app.ProgressDialog;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 import com.example.Database.Entities.StoresEntity;
 
@@ -62,28 +64,55 @@ public class Fragment3 extends Fragment {
     String veri_string;
     InputStream veri;
     List params ;
-    Post post = new Post();  //Post Class dan post adında nesne olusturduk.Post classın içindeki methodu kullanabilmek için
+    private ListView topstore;
+    private ArrayList<String> TopList,TopStoreList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment3, container, false);
+        new Post().execute();
 
         repositoryContainer = RepositoryContainer.create(getActivity());
         repository = repositoryContainer.getRepository(RepositoryNames.STORENAMES);
 
+        topstore = (ListView)v.findViewById(R.id.TopStorelist);
+        TopStore();
 
         buton = (Button) v.findViewById(R.id.send);
         buton.setOnClickListener(new View.OnClickListener() { //buton a click listener ekledik
 
             public void onClick(View v) {
                 new Post().execute(); //Asynctask Classı Çağırıyoruz
+                TopStore();
             }
         });
 
 
 
         return v;
+    }
+
+    public void TopStore()
+    {
+        TopStoreList=new ArrayList<>();
+        TopList=repository.getTopStoreName();
+
+        for(int i=0 ; i<5 ; i++)
+        {
+            TopStoreList.add(TopList.get(i));
+        }
+        Log.d("topstore", String.valueOf(TopStoreList)) ;
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                getActivity(), android.R.layout.simple_list_item_1, TopStoreList
+        );
+
+
+        topstore.setAdapter(adapter);
+
+
     }
 
     public class Post extends AsyncTask<Void, Void, Void> {

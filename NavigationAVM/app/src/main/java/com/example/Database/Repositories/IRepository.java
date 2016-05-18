@@ -8,6 +8,7 @@ import com.example.Database.Entities.StoresEntity;
 import com.example.models.DistanceViewModel;
 import com.example.models.StoresViewModel;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -75,6 +76,10 @@ public abstract class IRepository
         return null;
     }
     public String getIdFromStoreName(String storeName)
+    {
+        return null;
+    }
+    public ArrayList<String> getTopStoreName()
     {
         return null;
     }

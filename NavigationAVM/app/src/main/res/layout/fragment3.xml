@@ -18,4 +18,9 @@
         android:layout_height="wrap_content"
         android:text="Sync"
         android:id="@+id/send" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/TopStorelist" />
 </LinearLayout>
