@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Path;
+import android.graphics.PathDashPathEffect;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -235,7 +237,7 @@ public class LocationScreen extends Activity {
          */
 
         destinationZone = "1.2.16";
-        Zone = "1.2.3";
+        Zone = "1.1.15";
 
         if(destinationZone != null && Zone != null)
         {
@@ -466,9 +468,18 @@ public class LocationScreen extends Activity {
                             }
                         }
                     }
-
-                    Log.d("Liste", path1.toString());
-                    Log.d("Liste", path2.toString());
+                    /**
+                     * This is one of the most important part of the navigation part.
+                     * If user wants to change corridor, we look to number of zones which user should pass,
+                     * and we show user shorter one. The least Zone number, the shorter path
+                     */
+                    PathZoneList = path1;
+                    if(path1.size() > path2.size())
+                    {
+                        PathZoneList = path2;
+                    }
+                   // Log.d("Liste", path1.toString());
+                   // Log.d("Liste", path2.toString());
                 // For testing PathZoneList = path1;
                 }
             }
@@ -477,7 +488,34 @@ public class LocationScreen extends Activity {
 
         Log.d("Liste", PathZoneList.toString());
 
-    }
+        if(PathZoneList != null)
+        {
+            Iterator<String> pathListIterator = PathZoneList.iterator();
+            while(pathListIterator.hasNext())
+            {
+
+                RelativeLayout rv = (RelativeLayout) findViewById(R.id.OuterRelativeLayout);
+                RelativeLayout.LayoutParams params;
+                ImageButton image = new ImageButton(getApplicationContext());
+                image.setBackgroundResource(R.drawable.blue);
+
+
+                List<Integer> coordinateList = new ArrayList<>();
+                if ((coordinateList = getCoordinates("MarkerCoordinates.txt", getApplicationContext(), pathListIterator.next())) != null) {
+                    if (coordinateList.size() > 0) {
+                        params = new RelativeLayout.LayoutParams(30, 30);
+                        params.leftMargin = coordinateList.get(0);
+                        params.topMargin = coordinateList.get(1);
+                        rv.addView(image, params);
+                    } else {
+                        Toast.makeText(getApplicationContext(), Zone + "Is not in MarkerCoordinates.txt", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                }
+            }
+        }
+
 
 
     public List<Integer> getCoordinates(String fileName, Context context, String sendedZone) {
