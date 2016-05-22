@@ -174,4 +174,24 @@ public class DistancesRepository extends IRepository
             return false;
         }
     }
+
+    @Override
+    public boolean isZoneInNearZones(String sendedZone) {
+        SQLiteDatabase db = dbg.getReadableDatabase();
+
+
+        String query = "%" + sendedZone + "%";
+        Cursor cur = db.rawQuery("SELECT DISTINCT Zone FROM Distances WHERE NearZones Like '"
+                + query + "'" , null);
+
+        if(cur.moveToNext())
+        {
+
+            cur.close();
+            return true;
+        }else{
+            cur.close();
+            return true;
+        }
+    }
 }

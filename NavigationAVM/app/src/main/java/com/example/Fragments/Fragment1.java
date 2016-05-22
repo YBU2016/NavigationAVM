@@ -23,12 +23,26 @@ import com.example.omur.navigationavm.DatabaseScreen;
 import com.example.omur.navigationavm.LocationScreen;
 import com.example.omur.navigationavm.R;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import java.io.BufferedReader;
@@ -132,6 +146,7 @@ public class Fragment1 extends Fragment
                 startActivity(intent);
             }
         });
+
 
 
         return v;

@@ -51,6 +51,11 @@ public abstract class IRepository
         return s;
     }
 
+    public boolean isZoneInNearZones(String sendedZone)
+    {
+        return false;
+    }
+
     /**
      * From only DistanceRepository Class
      *
