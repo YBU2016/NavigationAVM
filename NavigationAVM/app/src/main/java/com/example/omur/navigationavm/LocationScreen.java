@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Path;
 import android.graphics.PathDashPathEffect;
+import android.media.MediaPlayer;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -234,41 +237,38 @@ public class LocationScreen extends Activity {
          *
          * destinationZone = "1.2.16";
          * Zone = "1.1.15";
+         *
+         * destinationZone = "1.1.15";
+         * Zone = "1.2.16";
+         *
+         * WITH EXTRACTING ONE OF THESE SAMPLE INPUTS, YOU CAN SEE AND TRY HOW OUR PROJECT WORKS
          */
 
-        destinationZone = "1.2.16";
-        Zone = "1.1.15";
 
-        if(destinationZone != null && Zone != null)
-        {
+
+        if (destinationZone != null && Zone != null) {
             String[] destinationZoneArray = destinationZone.split("\\.");
             String[] locationZoneArray = Zone.split("\\.");
             int destinationStoreNumber = Integer.parseInt(destinationZoneArray[2]);
             int locationStoreNumber = Integer.parseInt(locationZoneArray[2]);
 
             //Firstly control for floor
-            if(destinationZoneArray[0].equals(locationZoneArray[0]))
-            {
+            if (destinationZoneArray[0].equals(locationZoneArray[0])) {
                 //Secondly control for corridor
-                if(destinationZoneArray[1].equals(locationZoneArray[1]))
-                {
+                if (destinationZoneArray[1].equals(locationZoneArray[1])) {
                     // Thirdly Control for Store Number
-                    if((destinationStoreNumber % 2 == 0 && locationStoreNumber % 2 == 0) ||
-                       (destinationStoreNumber % 2 == 1 && locationStoreNumber % 2 == 1))
-                    {
-                        if(destinationStoreNumber < locationStoreNumber)
-                        {
-                            for(int counter = locationStoreNumber ; counter > (destinationStoreNumber-2); counter -= 2)
-                            {
+                    if ((destinationStoreNumber % 2 == 0 && locationStoreNumber % 2 == 0) ||
+                            (destinationStoreNumber % 2 == 1 && locationStoreNumber % 2 == 1)) {
+                        if (destinationStoreNumber < locationStoreNumber) {
+                            for (int counter = locationStoreNumber; counter > (destinationStoreNumber - 2); counter -= 2) {
                                 StringBuilder sb = new StringBuilder();
                                 sb.append((locationZoneArray[0] + "."));
                                 sb.append((locationZoneArray[1] + "."));
-                                sb.append(counter );
+                                sb.append(counter);
                                 PathZoneList.add(sb.toString());
                             }
-                        }else{
-                            for(int counter = (locationStoreNumber - 2) ; counter < destinationStoreNumber; counter += 2)
-                            {
+                        } else {
+                            for (int counter = (locationStoreNumber - 2); counter < destinationStoreNumber; counter += 2) {
                                 StringBuilder sb = new StringBuilder();
                                 sb.append((destinationZoneArray[0] + "."));
                                 sb.append((destinationZoneArray[1] + "."));
@@ -277,13 +277,11 @@ public class LocationScreen extends Activity {
                             }
                         }
 
-                    }else if((destinationStoreNumber % 2 == 0 && locationStoreNumber % 2 == 1) ||
-                            (destinationStoreNumber % 2 == 1 && locationStoreNumber % 2 == 0))
-                    {
+                    } else if ((destinationStoreNumber % 2 == 0 && locationStoreNumber % 2 == 1) ||
+                            (destinationStoreNumber % 2 == 1 && locationStoreNumber % 2 == 0)) {
                         // location 1.1.6 destination 1.1.1    location 1.1.2 destionation 1.1.17
-                        if(destinationStoreNumber < locationStoreNumber)
-                        {
-                            for(int counter = locationStoreNumber ; counter > (destinationStoreNumber - 3); counter -= 2) {
+                        if (destinationStoreNumber < locationStoreNumber) {
+                            for (int counter = locationStoreNumber; counter > (destinationStoreNumber - 3); counter -= 2) {
 
                                 StringBuilder sb = new StringBuilder();
                                 sb.append((locationZoneArray[0] + "."));
@@ -291,15 +289,14 @@ public class LocationScreen extends Activity {
                                 sb.append((counter));
                                 repositoryContainer = RepositoryContainer.create(this);
                                 repository = repositoryContainer.getRepository(RepositoryNames.DISTANCES);
-                                if(repository.isZoneInNearZones(sb.toString()))
-                                {
+                                if (repository.isZoneInNearZones(sb.toString())) {
                                     PathZoneList.add(sb.toString());
-                                }else{
+                                } else {
                                     break;
                                 }
                             }
-                        }else if(locationStoreNumber < destinationStoreNumber){
-                            for(int counter = locationStoreNumber ; counter < destinationStoreNumber ; counter += 2) {
+                        } else if (locationStoreNumber < destinationStoreNumber) {
+                            for (int counter = locationStoreNumber; counter < destinationStoreNumber; counter += 2) {
 
                                 StringBuilder sb = new StringBuilder();
                                 sb.append((locationZoneArray[0] + "."));
@@ -308,16 +305,15 @@ public class LocationScreen extends Activity {
 
                                 repositoryContainer = RepositoryContainer.create(this);
                                 repository = repositoryContainer.getRepository(RepositoryNames.DISTANCES);
-                                if(repository.isZoneInNearZones(sb.toString()))
-                                {
+                                if (repository.isZoneInNearZones(sb.toString())) {
                                     PathZoneList.add(sb.toString());
-                                }else{
+                                } else {
                                     break;
                                 }
                             }
                         }
                     }
-                }else{
+                } else {
                     /**
                      * If corridor numbers are different
                      * We find 2 different path and from their FarthestDistance - ShortestDistance difference,
@@ -331,8 +327,7 @@ public class LocationScreen extends Activity {
                     int firstCorridorUnderLimit = 9;
                     int secondCorridorUnderLimit = 1;
                     int underLİmit = firstCorridorUnderLimit;
-                    if(destinationZoneArray[1].equals("1") && locationZoneArray[1].equals("2"))
-                    {
+                    if (destinationZoneArray[1].equals("1") && locationZoneArray[1].equals("2")) {
                         underLİmit = secondCorridorUnderLimit;
                         limit = secondCorridorHighLimit;
                     }
@@ -341,8 +336,8 @@ public class LocationScreen extends Activity {
                     List<String> path1 = new ArrayList<>();
                     List<String> path2 = new ArrayList<>();
                     // From left the calculation is:
-                    if(locationStoreNumber % 2 == 1) {
-                        for (int counter = locationStoreNumber; counter < limit; counter += 2) {
+                    if (locationStoreNumber % 2 == 1) {
+                        for (int counter = locationStoreNumber; counter <= limit; counter += 2) {
 
                             StringBuilder sb = new StringBuilder();
                             sb.append((locationZoneArray[0] + "."));
@@ -373,7 +368,7 @@ public class LocationScreen extends Activity {
                             }
                             // For testing PathZoneList = path1;
                         }
-                    }else if( locationStoreNumber % 2 == 0) {
+                    } else if (locationStoreNumber % 2 == 0) {
                         for (int counter = locationStoreNumber; counter < limit; counter += 2) {
 
                             StringBuilder sb = new StringBuilder();
@@ -414,7 +409,7 @@ public class LocationScreen extends Activity {
                      * Zone = "1.2.15";
                      */
 
-                    if(locationStoreNumber % 2 == 1) {
+                    if (locationStoreNumber % 2 == 1) {
                         for (int counter = locationStoreNumber; counter >= underLİmit; counter -= 2) {
 
                             StringBuilder sb = new StringBuilder();
@@ -441,7 +436,7 @@ public class LocationScreen extends Activity {
                             }
                             // For testing PathZoneList = path2; destinationZone = "1.1.5"; Zone = "1.2.16";
                         }
-                    }else if( locationStoreNumber % 2 == 0) {
+                    } else if (locationStoreNumber % 2 == 0) {
                         for (int counter = locationStoreNumber; counter >= 0; counter -= 2) {
 
                             StringBuilder sb = new StringBuilder();
@@ -474,13 +469,12 @@ public class LocationScreen extends Activity {
                      * and we show user shorter one. The least Zone number, the shorter path
                      */
                     PathZoneList = path1;
-                    if(path1.size() > path2.size())
-                    {
+                    if (path1.size() > path2.size()) {
                         PathZoneList = path2;
                     }
-                   // Log.d("Liste", path1.toString());
-                   // Log.d("Liste", path2.toString());
-                // For testing PathZoneList = path1;
+                    // Log.d("Liste", path1.toString());
+                    // Log.d("Liste", path2.toString());
+                    // For testing PathZoneList = path1;
                 }
             }
 
@@ -488,16 +482,14 @@ public class LocationScreen extends Activity {
 
         Log.d("Liste", PathZoneList.toString());
 
-        if(PathZoneList != null)
-        {
+        if (PathZoneList != null) {
             Iterator<String> pathListIterator = PathZoneList.iterator();
-            while(pathListIterator.hasNext())
-            {
+            while (pathListIterator.hasNext()) {
 
                 RelativeLayout rv = (RelativeLayout) findViewById(R.id.OuterRelativeLayout);
                 RelativeLayout.LayoutParams params;
                 ImageButton image = new ImageButton(getApplicationContext());
-                image.setBackgroundResource(R.drawable.blue);
+                image.setBackgroundResource(R.drawable.lightblue);
 
 
                 List<Integer> coordinateList = new ArrayList<>();
@@ -507,14 +499,22 @@ public class LocationScreen extends Activity {
                         params.leftMargin = coordinateList.get(0);
                         params.topMargin = coordinateList.get(1);
                         rv.addView(image, params);
+
                     } else {
                         Toast.makeText(getApplicationContext(), Zone + "Is not in MarkerCoordinates.txt", Toast.LENGTH_LONG).show();
                     }
                 }
 
-                }
             }
         }
+
+         VoiceManager voiceManager = new VoiceManager();
+         voiceManager.makeVoice(PathZoneList, this);
+
+
+    }
+
+
 
 
 
