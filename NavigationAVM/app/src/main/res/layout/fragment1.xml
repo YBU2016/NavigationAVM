@@ -4,22 +4,58 @@
     android:layout_height="match_parent"
     android:background="#ffffff">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Değerli kullanıcımız ;"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="30dp"
+        android:textSize="18dp"
+        android:textColor="#000"
+        android:id="@+id/textView8" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:textColor="#000"
+        android:layout_marginLeft="5dp"
+        android:text="@string/description1"
+        android:layout_marginTop="20dp"
+        android:id="@+id/textView6" />
+
     <AutoCompleteTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/chooseStore"
-        android:hint="@string/where_do_you_want_to_go"/>
+        android:layout_marginTop="20dp"
+        android:hint="Hangi mağazayı arıyorsunuz ?"/>
+
+    <Button
+        android:layout_width="154dp"
+        android:layout_height="wrap_content"
+        android:text="Konum"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/LocationScreen"
+        android:layout_marginTop="15dp" />
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Database"
         android:id="@+id/AddData"
+        android:visibility="invisible"
         android:layout_marginTop="15dp" />
-    <Button
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Location"
-        android:id="@+id/LocationScreen"
-        android:layout_marginTop="15dp" />
+        android:textSize="18dp"
+        android:textColor="#000"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/description2"
+        android:layout_marginTop="10dp"
+        android:id="@+id/textView7" />
 </LinearLayout>

@@ -5,5 +5,9 @@
     <string name="mytextview">myTextView</string>
     <string name="facebook_app_id">1755175371379791</string>
     <string name="where_do_you_want_to_go">Where will yo go?</string>
-
+    <string name="description1"> Sadece Konum butonuna tıklayarak nerede olduğunuzu öğrenebilir ve ya gideceğiniz mağazanın ismini yazıp Konum butonuna tıklayarak
+        yol tarifi alabilirsiniz.
+    </string>
+    <string name="description2"> Keyifli alışverişler !
+    </string>
 </resources>

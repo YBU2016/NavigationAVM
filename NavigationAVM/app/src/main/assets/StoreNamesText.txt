@@ -37,7 +37,7 @@ Karaca Zuccaciye+1.2.7+0
 Bernardo+1.2.9+0
 Ramsey+1.2.11+0
 Sarar+1.2.13+0
-D'S Damat+1.2.15+0
+DS Damat+1.2.15+0
 Watsons+1.2.17+0
 Suvari+1.2.19+0
 Ghisa+1.2.21+0

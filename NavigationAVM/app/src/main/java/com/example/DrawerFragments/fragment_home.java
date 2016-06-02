@@ -50,7 +50,7 @@ public class fragment_home extends Fragment implements ViewPager.OnPageChangeLis
         tabHost.setup();
 
 
-        String[] tabNames = {"Tab1", "Tab2", "Tab3"};
+        String[] tabNames = {"Ana Sayfa", "Mağazalar", "Top 5"};
 
         for (int i = 0; i < tabNames.length; i++) {
             TabHost.TabSpec tabSpec;

@@ -62,9 +62,9 @@ public class MainPage extends AppCompatActivity
 
 
         listnavitem=new ArrayList<NavItem>() ;
-        listnavitem.add(new NavItem("Home","Home Page",R.mipmap.ic_launcher)) ;
-        listnavitem.add(new NavItem("Settings","Change something",R.mipmap.ic_launcher)) ;
-        listnavitem.add(new NavItem("About","Information",R.mipmap.ic_launcher)) ;
+        listnavitem.add(new NavItem("InnApp","Ana Sayfa",R.drawable.homelogo1)) ;
+        listnavitem.add(new NavItem("Ayarlar","Bilgilerini güncelle",R.drawable.setting)) ;
+        listnavitem.add(new NavItem("Hakkımızda","YBU-2016",R.drawable.info_icon)) ;
 
         NavListAdapter navListAdapter = new NavListAdapter(getApplicationContext(), R.layout.item_nav_list,listnavitem);
 
