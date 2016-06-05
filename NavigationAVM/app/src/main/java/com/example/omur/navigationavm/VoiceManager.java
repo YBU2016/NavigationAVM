@@ -39,7 +39,7 @@ public class VoiceManager {
     }
 
     public void makeVoice(List<String> pathList, Context context) {
-        if (pathList != null) {
+        if (pathList != null && pathList.size() > 0) {
             move = Uri.parse("android.resource://com.example.omur.navigationavm/raw/move");
             stores = Uri.parse("android.resource://com.example.omur.navigationavm/raw/stores");
             turnLeft = Uri.parse("android.resource://com.example.omur.navigationavm/raw/turnleft");
@@ -156,13 +156,15 @@ public class VoiceManager {
          * First we get first Zone's Corridor number if this first corridor number changes, then corridor is changed.
          */
         int counter = 0;
-        String firstCorridorNumber = pathList.get(0).split("\\.")[1];
-        Iterator<String> entries = pathList.iterator();
+        if(pathList.size() > 0) {
+            String firstCorridorNumber = pathList.get(0).split("\\.")[1];
+            Iterator<String> entries = pathList.iterator();
 
-        while (entries.hasNext()) {
-            String[] zoneArray = entries.next().split("\\.");
-            if (!firstCorridorNumber.equals(zoneArray[1])) {
-                counter = 1;
+            while (entries.hasNext()) {
+                String[] zoneArray = entries.next().split("\\.");
+                if (!firstCorridorNumber.equals(zoneArray[1])) {
+                    counter = 1;
+                }
             }
         }
         if (counter == 0) {

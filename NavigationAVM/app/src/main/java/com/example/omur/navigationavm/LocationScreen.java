@@ -55,6 +55,7 @@ public class LocationScreen extends Activity {
     public String destinationZone;
     public List<String> PathZoneList = new ArrayList<>();
 
+
     public double calculateDistance(double levelInDb, double freqInMHz) {
         double exp = (27.55 - (20 * Math.log10(freqInMHz)) + Math.abs(levelInDb)) / 20.0;
         return Math.pow(10.0, exp);
@@ -121,9 +122,9 @@ public class LocationScreen extends Activity {
         }
 
 
-        /**
-         * Scanning Wifi code, Starting here.
-         */
+/**
+ * Scanning Wifi code, Starting here.
+ */
         wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         registerReceiver(new BroadcastReceiver() {
 
@@ -190,9 +191,69 @@ public class LocationScreen extends Activity {
                             Toast.makeText(c, Zone + "Is not in MarkerCoordinates.txt", Toast.LENGTH_LONG).show();
                         }
 
-                    } else if (Zone == "" || Zone == null) {
+                    } else if (Zone == "" || Zone.isEmpty()) {
                         Toast.makeText(c, "Zone could not retrieved", Toast.LENGTH_LONG).show();
                     }
+
+
+                    if(Zone != null && destinationZone != null) {
+                        PathFinder path = new PathFinder();
+                        PathZoneList = path.findZonePath(destinationZone, Zone, c);
+                        Log.d("destination and zone", Zone + " +" + destinationZone);
+                    }
+                    if (PathZoneList != null) {
+                        Iterator<String> pathListIterator = PathZoneList.iterator();
+                        while (pathListIterator.hasNext()) {
+
+                            RelativeLayout relative = (RelativeLayout) findViewById(R.id.OuterRelativeLayout);
+                            RelativeLayout.LayoutParams params2;
+                            ImageButton image2 = new ImageButton(getApplicationContext());
+                            image2.setBackgroundResource(R.drawable.lightblue);
+
+
+                            List<Integer> coordinateList2 = new ArrayList<>();
+                            if ((coordinateList2 = getCoordinates("MarkerCoordinates.txt", getApplicationContext(), pathListIterator.next())) != null) {
+                                if (coordinateList2.size() > 0) {
+                                    params2 = new RelativeLayout.LayoutParams(30, 30);
+                                    params2.leftMargin = coordinateList2.get(0);
+                                    params2.topMargin = coordinateList2.get(1);
+                                    relative.addView(image2, params2);
+
+                                } else {
+                                    Toast.makeText(getApplicationContext(), Zone + "Is not in MarkerCoordinates.txt", Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                        }
+                    }
+
+                    if(PathZoneList != null && destinationZone != null) {
+                        VoiceManager voiceManager = new VoiceManager();
+                        voiceManager.makeVoice(PathZoneList, c);
+                    }
+
+                    if(PathZoneList.size() > 0 && !destinationZone.isEmpty()) {
+                        if (Zone.equals(destinationZone)) {
+                            MediaPlayer mp = MediaPlayer.create(c, R.raw.destination);
+                            mp.start();
+                        }
+                    }
+/**
+ *
+ * if(Zone == null && destinationZone != null)
+ {
+ Toast.makeText(c, "Zone", Toast.LENGTH_LONG).show();
+ }
+ else if(destinationZone == null && Zone != null)
+ {
+ Toast.makeText(c, "Destination Zone", Toast.LENGTH_LONG).show();
+ }else if(destinationZone == null && Zone == null)
+ {
+ Toast.makeText(c, "Zone and destination Zone", Toast.LENGTH_LONG).show();
+ }
+ */
+
+
 
                 } else {
                     Toast.makeText(LocationScreen.this, "Please open Wi-Fi", Toast.LENGTH_SHORT).show();
@@ -207,316 +268,7 @@ public class LocationScreen extends Activity {
          *
          * If user choose the store which he/she wants to go, we will show this store's place in floor plan
          */
-
-
-        /**
-         * HERE STARTS NAVIGATION CODE
-         * Running steady for these inputs
-         * destinationZone = "1.2.14";
-         * Zone = "1.2.4";
-         *
-         * destinationZone = "1.2.4";
-         * Zone = "1.2.14";
-         *
-         * destinationZone = "1.2.13";
-         * Zone = "1.2.3";
-         *
-         * destinationZone = "1.2.16";
-         * Zone = "1.2.3";
-         *
-         * destinationZone = "1.2.3";
-         * Zone = "1.2.13";
-         *
-         * destinationZone = "1.2.3";
-         * Zone = "1.2.6";
-         * destinationZone = "1.2.16";
-         * Zone = "1.2.5";
-         *
-         * destinationZone = "1.1.16";
-         * Zone = "1.2.5";
-         *
-         * destinationZone = "1.2.16";
-         * Zone = "1.1.15";
-         *
-         * destinationZone = "1.1.15";
-         * Zone = "1.2.16";
-         *
-         * WITH EXTRACTING ONE OF THESE SAMPLE INPUTS, YOU CAN SEE AND TRY HOW OUR PROJECT WORKS
-         */
-
-
-
-        if (destinationZone != null && Zone != null) {
-            String[] destinationZoneArray = destinationZone.split("\\.");
-            String[] locationZoneArray = Zone.split("\\.");
-            int destinationStoreNumber = Integer.parseInt(destinationZoneArray[2]);
-            int locationStoreNumber = Integer.parseInt(locationZoneArray[2]);
-
-            //Firstly control for floor
-            if (destinationZoneArray[0].equals(locationZoneArray[0])) {
-                //Secondly control for corridor
-                if (destinationZoneArray[1].equals(locationZoneArray[1])) {
-                    // Thirdly Control for Store Number
-                    if ((destinationStoreNumber % 2 == 0 && locationStoreNumber % 2 == 0) ||
-                            (destinationStoreNumber % 2 == 1 && locationStoreNumber % 2 == 1)) {
-                        if (destinationStoreNumber < locationStoreNumber) {
-                            for (int counter = locationStoreNumber; counter > (destinationStoreNumber - 2); counter -= 2) {
-                                StringBuilder sb = new StringBuilder();
-                                sb.append((locationZoneArray[0] + "."));
-                                sb.append((locationZoneArray[1] + "."));
-                                sb.append(counter);
-                                PathZoneList.add(sb.toString());
-                            }
-                        } else {
-                            for (int counter = (locationStoreNumber - 2); counter < destinationStoreNumber; counter += 2) {
-                                StringBuilder sb = new StringBuilder();
-                                sb.append((destinationZoneArray[0] + "."));
-                                sb.append((destinationZoneArray[1] + "."));
-                                sb.append((counter + 2));
-                                PathZoneList.add(sb.toString());
-                            }
-                        }
-
-                    } else if ((destinationStoreNumber % 2 == 0 && locationStoreNumber % 2 == 1) ||
-                            (destinationStoreNumber % 2 == 1 && locationStoreNumber % 2 == 0)) {
-                        // location 1.1.6 destination 1.1.1    location 1.1.2 destionation 1.1.17
-                        if (destinationStoreNumber < locationStoreNumber) {
-                            for (int counter = locationStoreNumber; counter > (destinationStoreNumber - 3); counter -= 2) {
-
-                                StringBuilder sb = new StringBuilder();
-                                sb.append((locationZoneArray[0] + "."));
-                                sb.append((locationZoneArray[1] + "."));
-                                sb.append((counter));
-                                repositoryContainer = RepositoryContainer.create(this);
-                                repository = repositoryContainer.getRepository(RepositoryNames.DISTANCES);
-                                if (repository.isZoneInNearZones(sb.toString())) {
-                                    PathZoneList.add(sb.toString());
-                                } else {
-                                    break;
-                                }
-                            }
-                        } else if (locationStoreNumber < destinationStoreNumber) {
-                            for (int counter = locationStoreNumber; counter < destinationStoreNumber; counter += 2) {
-
-                                StringBuilder sb = new StringBuilder();
-                                sb.append((locationZoneArray[0] + "."));
-                                sb.append((locationZoneArray[1] + "."));
-                                sb.append(counter);
-
-                                repositoryContainer = RepositoryContainer.create(this);
-                                repository = repositoryContainer.getRepository(RepositoryNames.DISTANCES);
-                                if (repository.isZoneInNearZones(sb.toString())) {
-                                    PathZoneList.add(sb.toString());
-                                } else {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    /**
-                     * If corridor numbers are different
-                     * We find 2 different path and from their FarthestDistance - ShortestDistance difference,
-                     * we will find out the shorter one.
-                     * This part is specialized for if location corridor is 1 and destination corridor is 2.
-                     * Location 1.1.16 Destination 1.2.15
-                     */
-                    int firstCorridorHighLimit = 31;
-                    int secondCorridorHighLimit = 24;
-                    int limit = firstCorridorHighLimit;
-                    int firstCorridorUnderLimit = 9;
-                    int secondCorridorUnderLimit = 1;
-                    int underLİmit = firstCorridorUnderLimit;
-                    if (destinationZoneArray[1].equals("1") && locationZoneArray[1].equals("2")) {
-                        underLİmit = secondCorridorUnderLimit;
-                        limit = secondCorridorHighLimit;
-                    }
-
-
-                    List<String> path1 = new ArrayList<>();
-                    List<String> path2 = new ArrayList<>();
-                    // From left the calculation is:
-                    if (locationStoreNumber % 2 == 1) {
-                        for (int counter = locationStoreNumber; counter <= limit; counter += 2) {
-
-                            StringBuilder sb = new StringBuilder();
-                            sb.append((locationZoneArray[0] + "."));
-                            sb.append((locationZoneArray[1] + "."));
-                            sb.append(counter);
-                            path1.add(sb.toString());
-                        }
-                        StringBuilder sb = new StringBuilder();
-                        sb.append("1.3.0");
-                        path1.add(sb.toString());
-
-                        if (destinationStoreNumber % 2 == 0) {
-                            for (int counter = secondCorridorHighLimit; counter >= destinationStoreNumber; counter -= 2) {
-                                StringBuilder sb2 = new StringBuilder();
-                                sb2.append((destinationZoneArray[0] + "."));
-                                sb2.append((destinationZoneArray[1] + "."));
-                                sb2.append(counter);
-                                path1.add(sb2.toString());
-                            }
-                            // For testing PathZoneList = path1;
-                        } else if (destinationStoreNumber % 2 == 1) {
-                            for (int counter = 27; counter >= destinationStoreNumber; counter -= 2) {
-                                StringBuilder sb2 = new StringBuilder();
-                                sb2.append((destinationZoneArray[0] + "."));
-                                sb2.append((destinationZoneArray[1] + "."));
-                                sb2.append(counter);
-                                path1.add(sb2.toString());
-                            }
-                            // For testing PathZoneList = path1;
-                        }
-                    } else if (locationStoreNumber % 2 == 0) {
-                        for (int counter = locationStoreNumber; counter < limit; counter += 2) {
-
-                            StringBuilder sb = new StringBuilder();
-                            sb.append((locationZoneArray[0] + "."));
-                            sb.append((locationZoneArray[1] + "."));
-                            sb.append(counter);
-                            path1.add(sb.toString());
-                        }
-                        StringBuilder sb = new StringBuilder();
-                        sb.append("1.3.0");
-                        path1.add(sb.toString());
-
-                        if (destinationStoreNumber % 2 == 0) {
-                            for (int counter = secondCorridorHighLimit; counter >= destinationStoreNumber; counter -= 2) {
-                                StringBuilder sb2 = new StringBuilder();
-                                sb2.append((destinationZoneArray[0] + "."));
-                                sb2.append((destinationZoneArray[1] + "."));
-                                sb2.append(counter);
-                                path1.add(sb2.toString());
-                            }
-                            // For testing PathZoneList = path1;
-                        } else if (destinationStoreNumber % 2 == 1) {
-                            for (int counter = 27; counter >= destinationStoreNumber; counter -= 2) {
-                                StringBuilder sb2 = new StringBuilder();
-                                sb2.append((destinationZoneArray[0] + "."));
-                                sb2.append((destinationZoneArray[1] + "."));
-                                sb2.append(counter);
-                                path1.add(sb2.toString());
-                            }
-                        }
-                    }
-                    /**
-                     * Here path2 is found. After it is found, shorter one will be declared and it will be our main path
-                     * destinationZone = "1.1.5";
-                     * Zone = "1.2.16";
-                     *
-                     * destinationZone = "1.1.16";
-                     * Zone = "1.2.15";
-                     */
-
-                    if (locationStoreNumber % 2 == 1) {
-                        for (int counter = locationStoreNumber; counter >= underLİmit; counter -= 2) {
-
-                            StringBuilder sb = new StringBuilder();
-                            sb.append((locationZoneArray[0] + "."));
-                            sb.append((locationZoneArray[1] + "."));
-                            sb.append(counter);
-                            path2.add(sb.toString());
-                        }
-                        if (destinationStoreNumber % 2 == 0) {
-                            for (int counter = 0; counter <= destinationStoreNumber; counter += 2) {
-                                StringBuilder sb = new StringBuilder();
-                                sb.append((destinationZoneArray[0] + "."));
-                                sb.append((destinationZoneArray[1] + "."));
-                                sb.append(counter);
-                                path2.add(sb.toString());
-                            }
-                        } else if (destinationStoreNumber % 2 == 1) {
-                            for (int counter = 0; counter <= destinationStoreNumber; counter += 2) {
-                                StringBuilder sb = new StringBuilder();
-                                sb.append((destinationZoneArray[0] + "."));
-                                sb.append((destinationZoneArray[1] + "."));
-                                sb.append(counter);
-                                path2.add(sb.toString());
-                            }
-                            // For testing PathZoneList = path2; destinationZone = "1.1.5"; Zone = "1.2.16";
-                        }
-                    } else if (locationStoreNumber % 2 == 0) {
-                        for (int counter = locationStoreNumber; counter >= 0; counter -= 2) {
-
-                            StringBuilder sb = new StringBuilder();
-                            sb.append((locationZoneArray[0] + "."));
-                            sb.append((locationZoneArray[1] + "."));
-                            sb.append(counter);
-                            path2.add(sb.toString());
-                        }
-                        if (destinationStoreNumber % 2 == 0) {
-                            for (int counter = 0; counter <= destinationStoreNumber; counter += 2) {
-                                StringBuilder sb = new StringBuilder();
-                                sb.append((destinationZoneArray[0] + "."));
-                                sb.append((destinationZoneArray[1] + "."));
-                                sb.append(counter);
-                                path2.add(sb.toString());
-                            }
-                        } else if (destinationStoreNumber % 2 == 1) {
-                            for (int counter = 0; counter <= destinationStoreNumber; counter += 2) {
-                                StringBuilder sb = new StringBuilder();
-                                sb.append((destinationZoneArray[0] + "."));
-                                sb.append((destinationZoneArray[1] + "."));
-                                sb.append(counter);
-                                path2.add(sb.toString());
-                            }
-                        }
-                    }
-                    /**
-                     * This is one of the most important part of the navigation part.
-                     * If user wants to change corridor, we look to number of zones which user should pass,
-                     * and we show user shorter one. The least Zone number, the shorter path
-                     */
-                    PathZoneList = path1;
-                    if (path1.size() > path2.size()) {
-                        PathZoneList = path2;
-                    }
-                    // Log.d("Liste", path1.toString());
-                    // Log.d("Liste", path2.toString());
-                    // For testing PathZoneList = path1;
-                }
-            }
-
-        }// End of controling Zone and Destionation Zone is null or not.
-
-        Log.d("Liste", PathZoneList.toString());
-
-        if (PathZoneList != null) {
-            Iterator<String> pathListIterator = PathZoneList.iterator();
-            while (pathListIterator.hasNext()) {
-
-                RelativeLayout rv = (RelativeLayout) findViewById(R.id.OuterRelativeLayout);
-                RelativeLayout.LayoutParams params;
-                ImageButton image = new ImageButton(getApplicationContext());
-                image.setBackgroundResource(R.drawable.lightblue);
-
-
-                List<Integer> coordinateList = new ArrayList<>();
-                if ((coordinateList = getCoordinates("MarkerCoordinates.txt", getApplicationContext(), pathListIterator.next())) != null) {
-                    if (coordinateList.size() > 0) {
-                        params = new RelativeLayout.LayoutParams(30, 30);
-                        params.leftMargin = coordinateList.get(0);
-                        params.topMargin = coordinateList.get(1);
-                        rv.addView(image, params);
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), Zone + "Is not in MarkerCoordinates.txt", Toast.LENGTH_LONG).show();
-                    }
-                }
-
-            }
-        }
-
-         VoiceManager voiceManager = new VoiceManager();
-         voiceManager.makeVoice(PathZoneList, this);
-
-
     }
-
-
-
-
 
     public List<Integer> getCoordinates(String fileName, Context context, String sendedZone) {
         BufferedReader bufferedReader = null;
@@ -558,5 +310,13 @@ public class LocationScreen extends Activity {
             }
         }
         return returningList;
+    }
+
+    public String getZone() {
+        return Zone;
+    }
+
+    public void setZone(String zone) {
+        Zone = zone;
     }
 }
